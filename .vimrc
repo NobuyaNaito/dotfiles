@@ -71,6 +71,7 @@ set softtabstop=2
 
 " statusline
 set laststatus=2
+set ruler
 
 " tabline
 set showtabline=2
@@ -92,7 +93,7 @@ set backspace=indent,eol,start
 "autocmd ColorScheme * highlight CursorLine cterm=none ctermfg=none ctermbg=none
 "augroup cursorline_highlight_on
 "  autocmd!
-"  autocmd VimEnter,BufEnter * highlight CursorLineNr ctermfg=15 ctermbg=236
+"  autocmd VimEnter,BufEnter * highlight CursorLineNr ctermfg=231 ctermbg=236
 "  autocmd VimEnter,BufEnter * highlight CursorLine cterm=none ctermfg=none ctermbg=236
 "augroup END
 "augroup cursorline_highlight_off
@@ -103,52 +104,4 @@ set backspace=indent,eol,start
 "autocmd VimEnter,BufEnter * doautocmd cursorline_highlight_on VimEnter,BufEnter
 "autocmd BufLeave * doautocmd cursorline_highlight_off BufLeave
 
-"===============================================================================
-
-" colorschemes
-
-" basic
-autocmd ColorScheme * highlight Comment ctermfg=68 ctermbg=none
-autocmd ColorScheme * highlight Constant ctermfg=197 ctermbg=none
-autocmd ColorScheme * highlight Identifier ctermfg=81 ctermbg=none
-autocmd ColorScheme * highlight Statement ctermfg=227 ctermbg=none
-autocmd ColorScheme * highlight PreProc ctermfg=206 ctermbg=none
-autocmd ColorScheme * highlight Type ctermfg=112 ctermbg=none
-autocmd ColorScheme * highlight Special ctermfg=206 ctermbg=none
-autocmd ColorScheme * highlight Underlined cterm=underline ctermfg=206 ctermbg=none
-autocmd ColorScheme * highlight Error cterm=none ctermfg=15 ctermbg=9
-autocmd ColorScheme * highlight Todo cterm=none ctermfg=0 ctermbg=11
-autocmd ColorScheme * highlight ErrorMsg cterm=none ctermfg=15 ctermbg=9
-autocmd ColorScheme * highlight NonText ctermfg=242 ctermbg=none
-
-" search
-autocmd ColorScheme * highlight Search cterm=none ctermfg=0 ctermbg=11
-autocmd ColorScheme * highlight IncSearch cterm=none ctermfg=0 ctermbg=15
-
-" statusline
-autocmd ColorScheme * highlight StatusLine cterm=bold ctermfg=15 ctermbg=60
-autocmd ColorScheme * highlight StatusLineNC cterm=none ctermfg=189 ctermbg=60
-autocmd ColorScheme * highlight VertSplit cterm=bold ctermfg=15 ctermbg=0
-
-" tabline
-autocmd ColorScheme * highlight TabLine cterm=none ctermfg=189 ctermbg=60
-autocmd ColorScheme * highlight TabLineSel cterm=bold ctermfg=15 ctermbg=0
-autocmd ColorScheme * highlight TabLineFill cterm=none ctermfg=189 ctermbg=60
-
-" linenumber and cursorline
-autocmd ColorScheme * highlight LineNr ctermfg=242 ctermbg=none
-autocmd ColorScheme * highlight CursorLineNr ctermfg=15 ctermbg=234
-autocmd ColorScheme * highlight CursorLine cterm=none ctermfg=none ctermbg=234
-
-" column
-autocmd ColorScheme * highlight ColorColumn cterm=none ctermfg=none ctermbg=234
-
-" git diff
-autocmd ColorScheme * highlight DiffAdd cterm=bold ctermfg=16 ctermbg=203
-autocmd ColorScheme * highlight DiffChange cterm=none ctermfg=16 ctermbg=210
-autocmd ColorScheme * highlight DiffDelete cterm=none ctermfg=16 ctermbg=210
-autocmd ColorScheme * highlight DiffText cterm=bold ctermfg=16 ctermbg=203
-autocmd ColorScheme * highlight Folded cterm=none ctermfg=16 ctermbg=189
-autocmd ColorScheme * highlight FoldColumn cterm=bold ctermfg=15 ctermbg=16
-
-colorscheme default
+colorscheme myscheme
