@@ -50,12 +50,12 @@ autocmd ColorScheme * highlight TabLineSel cterm=bold ctermfg=231 ctermbg=16
 autocmd ColorScheme * highlight TabLineFill cterm=none ctermfg=189 ctermbg=60
 
 " linenumber and cursorline
-autocmd ColorScheme * highlight LineNr cterm=none ctermfg=242 ctermbg=none
-autocmd ColorScheme * highlight CursorLineNr cterm=none ctermfg=231 ctermbg=234
-autocmd ColorScheme * highlight CursorLine cterm=none ctermfg=none ctermbg=234
+autocmd ColorScheme * highlight LineNr cterm=none ctermfg=252 ctermbg=235
+autocmd ColorScheme * highlight CursorLineNr cterm=underline,bold ctermfg=231 ctermbg=235
+autocmd ColorScheme * highlight CursorLine cterm=underline ctermfg=none ctermbg=none
 
 " column
-autocmd ColorScheme * highlight ColorColumn cterm=none ctermfg=none ctermbg=234
+autocmd ColorScheme * highlight ColorColumn cterm=none ctermfg=none ctermbg=235
 
 " git diff
 autocmd ColorScheme * highlight DiffAdd cterm=bold ctermfg=16 ctermbg=203

@@ -1,8 +1,8 @@
 " plugins
-"if &compatible
-"  set nocompatible
-"endif
-"  
+if &compatible
+  set nocompatible
+endif
+  
 "set runtimepath+=/home/naito/.vim/bundles/repos/github.com/Shougo/dein.vim
 "
 "if dein#load_state('/home/naito/.vim/bundles')
@@ -22,11 +22,14 @@
 "  call dein#end()
 "  call dein#save_state()
 "endif
-"
+
 filetype on
 filetype plugin on
 filetype indent off
+
+colorscheme myscheme
 syntax enable
+let g:syntax_cmd="skip" "Avoid reading in syncolor.vim.
 
 " If you want to install not installed plugins on startup.
 "if dein#check_install()
@@ -103,5 +106,3 @@ set backspace=indent,eol,start
 "augroup END
 "autocmd VimEnter,BufEnter * doautocmd cursorline_highlight_on VimEnter,BufEnter
 "autocmd BufLeave * doautocmd cursorline_highlight_off BufLeave
-
-colorscheme myscheme
