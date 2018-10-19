@@ -64,3 +64,25 @@ autocmd ColorScheme * highlight DiffDelete cterm=none ctermfg=16 ctermbg=210
 autocmd ColorScheme * highlight DiffText cterm=bold ctermfg=16 ctermbg=203
 autocmd ColorScheme * highlight Folded cterm=none ctermfg=16 ctermbg=189
 autocmd ColorScheme * highlight FoldColumn cterm=bold ctermfg=231 ctermbg=16
+
+" mode
+autocmd ColorScheme * highlight ModeMsg cterm=bold ctermfg=226 ctermbg=none
+
+augroup ColorSchemeInsertMode
+  autocmd!
+  " switch ModeMsg color for displaying next time
+  autocmd InsertEnter * call ColorSchemeModeMsg(v:insertmode)
+  autocmd InsertChange * call ColorSchemeModeMsg(v:insertmode)
+  " switch ModeMsg color to the default (same as above)
+  autocmd InsertLeave * highlight ModeMsg cterm=bold ctermfg=226 ctermbg=none
+augroup end
+
+function! ColorSchemeModeMsg(mode)
+  " ModeMsg color of REPLACE mode
+  if a:mode == "i"
+    highlight ModeMsg cterm=bold ctermfg=196 ctermbg=none
+  " ModeMsg color of INSERT mode
+  elseif a:mode == "r"
+    highlight ModeMsg cterm=bold ctermfg=226 ctermbg=none
+  endif
+endfunction

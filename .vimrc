@@ -80,7 +80,7 @@ set ruler
 set showtabline=2
 
 " column
-execute "set colorcolumn=" . join(range(81, 999), ',')
+execute "set colorcolumn=" . join(range(81, 200), ',')
 
 " other setting
 set scrolloff=4
