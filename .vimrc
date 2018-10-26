@@ -1,42 +1,6 @@
-" plugins
-if &compatible
+if !&compatible
   set nocompatible
 endif
-  
-"set runtimepath+=/home/naito/.vim/bundles/repos/github.com/Shougo/dein.vim
-"
-"if dein#load_state('/home/naito/.vim/bundles')
-"  call dein#begin('/home/naito/.vim/bundles')
-"
-"  " Let dein manage dein.
-"  call dein#add('/home/naito/.vim/bundles/repos/github.com/Shougo/dein.vim')
-"
-"  " Add or remove your plugins here:
-"  call dein#add('Shougo/neosnippet.vim')
-"  call dein#add('Shougo/neosnippet-snippets')
-"  call dein#add('tpope/vim-fugitive')
-"
-"  " You can specify revision/branch/tag.
-"  "call dein#add('Shougo/deol.nvim', { 'rev': 'a1b5108fd' })
-"
-"  call dein#end()
-"  call dein#save_state()
-"endif
-
-filetype on
-filetype plugin on
-filetype indent off
-
-colorscheme myscheme
-syntax enable
-let g:syntax_cmd="skip" "Avoid reading in syncolor.vim.
-
-" If you want to install not installed plugins on startup.
-"if dein#check_install()
-"  call dein#install()
-"endif
-
-"===============================================================================
 
 " command
 command! -nargs=? -complete=file TE tabedit <args>
@@ -48,6 +12,9 @@ nnoremap <C-h> gT
 nnoremap <C-l> gt
 "nnoremap :te :tabedit
 vnoremap * "zy:let @/ = @z<CR>n
+" instant escape from insert and visual mode
+inoremap <silent> <ESC> <ESC>:<RETURN>
+vnoremap <silent> <ESC> <ESC>:<RETURN>
 
 " search
 nnoremap <ESC><ESC> :set nohlsearch<RETURN>
@@ -106,3 +73,41 @@ set backspace=indent,eol,start
 "augroup END
 "autocmd VimEnter,BufEnter * doautocmd cursorline_highlight_on VimEnter,BufEnter
 "autocmd BufLeave * doautocmd cursorline_highlight_off BufLeave
+
+filetype on
+filetype plugin on
+filetype indent off
+
+"===============================================================================
+"===============================================================================
+" plugins
+
+let s:plugin_dir = "/home/naito/.vim/bundles"
+let s:dein_dir = s:plugin_dir . "/repos/github.com/Shougo/dein.vim"
+
+" When dein is installed.
+if isdirectory(s:dein_dir)
+
+  let &runtimepath = s:dein_dir .",". &runtimepath
+
+  if dein#load_state(s:plugin_dir)
+    call dein#begin(s:plugin_dir)
+    call dein#load_toml(s:plugin_dir . "/dein.toml")
+    call dein#end()
+    call dein#save_state()
+  endif
+
+  " If you want to install not installed plugins on startup.
+  if dein#check_install()
+    call dein#install()
+  endif
+
+endif
+
+"===============================================================================
+"===============================================================================
+" colorscheme
+
+syntax on
+"colorscheme myscheme
+colorscheme myiceberg

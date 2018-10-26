@@ -2,8 +2,6 @@
 " Only supports CUI version and dark background.
 " Put this file in <~/.vim/colors/>.
 
-let g:colors_name = expand('<sfile>:t:r')
-
 set background=dark
 
 " Remove all existing highlighting and set the defaults.
@@ -13,6 +11,8 @@ highlight clear
 if exists("syntax_on")
   syntax reset
 endif
+
+let g:colors_name = expand('<sfile>:t:r')
 
 "===============================================================================
 
@@ -32,8 +32,8 @@ autocmd ColorScheme * highlight ErrorMsg cterm=none ctermfg=231 ctermbg=196
 autocmd ColorScheme * highlight NonText cterm=none ctermfg=242 ctermbg=none
 
 " full width space
-autocmd ColorScheme * highlight FullWidthSpace cterm=none ctermfg=none ctermbg=231
-autocmd VimEnter * match FullWidthSpace /　/
+"autocmd ColorScheme * highlight FullWidthSpace cterm=none ctermfg=none ctermbg=231
+"autocmd VimEnter * match FullWidthSpace /　/
 
 " search
 autocmd ColorScheme * highlight Search cterm=none ctermfg=16 ctermbg=226
@@ -68,21 +68,24 @@ autocmd ColorScheme * highlight FoldColumn cterm=bold ctermfg=231 ctermbg=16
 " mode
 autocmd ColorScheme * highlight ModeMsg cterm=bold ctermfg=226 ctermbg=none
 
-augroup ColorSchemeInsertMode
-  autocmd!
-  " switch ModeMsg color for displaying next time
-  autocmd InsertEnter * call ColorSchemeModeMsg(v:insertmode)
-  autocmd InsertChange * call ColorSchemeModeMsg(v:insertmode)
-  " switch ModeMsg color to the default (same as above)
-  autocmd InsertLeave * highlight ModeMsg cterm=bold ctermfg=226 ctermbg=none
-augroup end
+" Set different ModeMsg colors for insert and replace mode.
+" Unnecessary when lightline.vim is applied.
 
-function! ColorSchemeModeMsg(mode)
-  " ModeMsg color of REPLACE mode
-  if a:mode == "i"
-    highlight ModeMsg cterm=bold ctermfg=196 ctermbg=none
-  " ModeMsg color of INSERT mode
-  elseif a:mode == "r"
-    highlight ModeMsg cterm=bold ctermfg=226 ctermbg=none
-  endif
-endfunction
+"augroup ColorSchemeInsertMode
+"  autocmd!
+"  " switch ModeMsg color for displaying next time
+"  autocmd InsertEnter * call ColorSchemeModeMsg(v:insertmode)
+"  autocmd InsertChange * call ColorSchemeModeMsg(v:insertmode)
+"  " switch ModeMsg color to the default (same as above)
+"  autocmd InsertLeave * highlight ModeMsg cterm=bold ctermfg=226 ctermbg=none
+"augroup end
+"
+"function! ColorSchemeModeMsg(mode)
+"  " ModeMsg color of REPLACE mode
+"  if a:mode == "i"
+"    highlight ModeMsg cterm=bold ctermfg=196 ctermbg=none
+"  " ModeMsg color of INSERT mode
+"  elseif a:mode == "r"
+"    highlight ModeMsg cterm=bold ctermfg=226 ctermbg=none
+"  endif
+"endfunction

@@ -1,0 +1,65 @@
+# Configuration for vim plugins managed by dein.vim.
+# Put this file in <~/.vim/bundles/>.
+
+# Let dein manage dein.
+[[plugins]]
+repo = "Shougo/dein.vim"
+
+[[plugins]]
+repo = "Shougo/neosnippet.vim"
+hook_add = '''
+  " # Disable default snippets.
+  let g:neosnippet#disable_runtime_snippets = {
+  \ "_": 1
+  \ }
+
+  let g:neosnippet#snippets_directory = "~/dotfiles/snippets/"
+  command! Snip NeoSnippetEdit
+
+  " # Plugin key-mappings.
+  " # Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+  imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+  smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+  xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+  " # SuperTab like snippets behavior.
+  " # Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+  "# imap <expr><TAB>
+  " # \ pumvisible() ? "\<C-n>" :
+  " # \ neosnippet#expandable_or_jumpable() ?
+  " # \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+  \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+  " # For conceal markers.
+  if has('conceal')
+    set conceallevel=2 concealcursor=niv
+  endif
+'''
+
+[[plugins]]
+repo = "Shougo/neosnippet-snippets"
+
+[[plugins]]
+repo = "tpope/vim-fugitive"
+
+[[plugins]]
+repo = "itchyny/lightline.vim"
+hook_add = '''
+  let g:lightline = {
+    \ "colorscheme": "myiceberg"
+    \ }
+
+  set laststatus=2
+  set noshowmode
+'''
+
+[[plugins]]
+repo = "cocopon/iceberg.vim"
+
+[[plugins]]
+repo = "cespare/vim-toml"
+
+# Uninstall commented out plugins.
+#call map(dein#check_clean(),"delete(v:val,'rf')")
+#call dein#recache_runtimepath()
