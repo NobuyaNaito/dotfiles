@@ -3,7 +3,7 @@ if !&compatible
 endif
 
 " command
-command! -nargs=? -complete=file TE tabedit <args>
+"command! -nargs=? -complete=file TE tabedit <args>
 
 " mapping
 noremap <S-h> ^
@@ -47,16 +47,23 @@ set ruler
 set showtabline=2
 
 " column
-execute "set colorcolumn=" . join(range(81, 200), ',')
+"execute "set colorcolumn=" . join(range(81, 200), ',')
 
 " other setting
 set scrolloff=4
 set whichwrap=b,s,<,>,[,]
 set number
+set relativenumber
 set cursorline
 "set formatoptions-=or   ~/.vim/after/plugin/common_settings.vim に記述
 set formatoptions=q
 set backspace=indent,eol,start
+
+augroup QuickFixCmd
+  autocmd!
+  autocmd QuickFixCmdPost make,*grep* cwindow
+augroup END
+
 " sp, vsp 等を実行した際、編集中のファイルのみカーソルラインのハイライトが
 " 有効になるように設定中。今はまだ正しく動かない。
 "autocmd ColorScheme * highlight CursorLineNr ctermfg=242 ctermbg=none
@@ -82,7 +89,7 @@ filetype indent off
 "===============================================================================
 " plugins
 
-let s:plugin_dir = "/home/naito/.vim/bundles"
+let s:plugin_dir = $HOME . "/.vim/bundles"
 let s:dein_dir = s:plugin_dir . "/repos/github.com/Shougo/dein.vim"
 
 " When dein is installed.
@@ -100,6 +107,25 @@ if isdirectory(s:dein_dir)
   " If you want to install not installed plugins on startup.
   if dein#check_install()
     call dein#install()
+  endif
+
+  if dein#is_sourced("neosnippet.vim")
+    command! Snip NeoSnippetEdit
+
+    " # Plugin key-mappings.
+    " # Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+    imap <C-j> <Plug>(neosnippet_expand_or_jump)
+    smap <C-j> <Plug>(neosnippet_expand_or_jump)
+    xmap <C-j> <Plug>(neosnippet_expand_target)
+
+    " # SuperTab like snippets behavior.
+    " # Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+    "# imap <expr><TAB>
+    " # \ pumvisible() ? "\<C-n>" :
+    " # \ neosnippet#expandable_or_jumpable() ?
+    " # \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+    smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+    \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
   endif
 
 endif
