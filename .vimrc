@@ -87,12 +87,11 @@ filetype indent off
 
 "===============================================================================
 "===============================================================================
-" plugins
+" Plugins.
 
 let s:plugin_dir = $HOME . "/.vim/bundles"
 let s:dein_dir = s:plugin_dir . "/repos/github.com/Shougo/dein.vim"
 
-" When dein is installed.
 if isdirectory(s:dein_dir)
 
   let &runtimepath = s:dein_dir .",". &runtimepath
@@ -104,35 +103,16 @@ if isdirectory(s:dein_dir)
     call dein#save_state()
   endif
 
-  " If you want to install not installed plugins on startup.
+  " Install not installed plugins on startup.
   if dein#check_install()
     call dein#install()
-  endif
-
-  if dein#is_sourced("neosnippet.vim")
-    command! Snip NeoSnippetEdit
-
-    " # Plugin key-mappings.
-    " # Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-    imap <C-j> <Plug>(neosnippet_expand_or_jump)
-    smap <C-j> <Plug>(neosnippet_expand_or_jump)
-    xmap <C-j> <Plug>(neosnippet_expand_target)
-
-    " # SuperTab like snippets behavior.
-    " # Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-    "# imap <expr><TAB>
-    " # \ pumvisible() ? "\<C-n>" :
-    " # \ neosnippet#expandable_or_jumpable() ?
-    " # \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-    smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-    \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
   endif
 
 endif
 
 "===============================================================================
 "===============================================================================
-" colorscheme
+" Colorscheme.
 
 syntax on
 "colorscheme myscheme
