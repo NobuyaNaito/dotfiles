@@ -2,6 +2,11 @@ if !&compatible
   set nocompatible
 endif
 
+" runtimepath
+let s:dotfiles_runtime = $HOME . "/dotfiles/vimruntime"
+let &runtimepath = s:dotfiles_runtime .",". &runtimepath
+let &runtimepath = &runtimepath .",". s:dotfiles_runtime . "/after"
+
 " command
 "command! -nargs=? -complete=file TE tabedit <args>
 
