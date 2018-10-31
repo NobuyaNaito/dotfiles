@@ -64,9 +64,19 @@ set cursorline
 set formatoptions=q
 set backspace=indent,eol,start
 
-augroup QuickFixCmd
+augroup QuickFixOpen
   autocmd!
   autocmd QuickFixCmdPost make,*grep* cwindow
+augroup END
+
+augroup QuickFixVerticalRight
+  autocmd!
+  autocmd FileType qf wincmd L
+augroup END
+
+augroup HelpVerticalRight
+  autocmd!
+  autocmd FileType help wincmd L
 augroup END
 
 " sp, vsp 等を実行した際、編集中のファイルのみカーソルラインのハイライトが

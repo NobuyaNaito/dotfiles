@@ -1,10 +1,6 @@
 # Configuration for vim plugins managed by dein.vim.
 # Put this file in <~/.vim/bundles/>.
 
-# Let dein manage dein.
-[[plugins]]
-repo = "Shougo/dein.vim"
-
 [[plugins]]
 repo = "Shougo/neosnippet.vim"
 hook_add = '''
@@ -78,17 +74,29 @@ on_ft = "toml"
 # Default snippets for neosnippet.vim.
 [[plugins]]
 repo = "Shougo/neosnippet-snippets"
-if = 0
+lazy = 1
 
 # Vim and lightline colorscheme: iceberg.
 [[plugins]]
 repo = "cocopon/iceberg.vim"
-if = 0
+lazy = 1
 
 #===============================================================================
 #===============================================================================
-# dein functions.
+# dein.vim
 
-# Uninstall commented out plugins.
-#call map(dein#check_clean(),"delete(v:val,'rf')")
-#call dein#recache_runtimepath()
+[[plugins]]
+repo = "Shougo/dein.vim"
+hook_add = '''
+  " # Disable plugins. (NOT uninstalled)
+  " # Delayed loading (lazy) is required.
+  call dein#disable(["Shougo/neosnippet-snippets"])
+  call dein#disable(["cocopon/iceberg.vim"])
+
+  " # Update plugins.
+  " # call dein#update()
+
+  " # Uninstall commented out plugins.
+  " # call map(dein#check_clean(),"delete(v:val,'rf')")
+  " # call dein#recache_runtimepath()
+'''
