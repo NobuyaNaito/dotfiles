@@ -79,6 +79,10 @@ augroup HelpVerticalRight
   autocmd FileType help wincmd L
 augroup END
 
+augroup vimrc
+  autocmd!
+augroup END
+
 " sp, vsp 等を実行した際、編集中のファイルのみカーソルラインのハイライトが
 " 有効になるように設定中。今はまだ正しく動かない。
 "autocmd ColorScheme * highlight CursorLineNr ctermfg=242 ctermbg=none

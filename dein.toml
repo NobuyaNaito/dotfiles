@@ -108,6 +108,50 @@ hook_add = '''
 
 #===============================================================================
 #===============================================================================
+# Completion.
+
+[[plugins]]
+repo = "prabirshrestha/asyncomplete.vim"
+hook_add = '''
+  set shortmess+=c
+'''
+
+[[plugins]]
+repo = "prabirshrestha/asyncomplete-necosyntax.vim"
+depends = ["asyncomplete.vim"]
+hook_source = '''
+  autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(
+  \ asyncomplete#sources#necosyntax#get_source_options({
+  \   "name": "necosyntax",
+  \   "whitelist": ['*'],
+  \   "completor": function('asyncomplete#sources#necosyntax#completor'),
+  \ })
+  \ )
+'''
+
+[[plugins]]
+repo = "prabirshrestha/asyncomplete-necovim.vim"
+depends = ["asyncomplete.vim"]
+hook_source = '''
+  autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(
+  \ asyncomplete#sources#necovim#get_source_options({
+  \   "name": "necovim",
+  \   "whitelist": ['vim'],
+  \   "completor": function('asyncomplete#sources#necovim#completor'),
+  \ })
+  \ )
+'''
+
+[[plugins]]
+repo = "Shougo/neco-syntax"
+lazy = 1
+
+[[plugins]]
+repo = "Shougo/neco-vim"
+lazy = 1
+
+#===============================================================================
+#===============================================================================
 # TOML syntax highlight.
 
 # Detect code blocks and their filetypes.
