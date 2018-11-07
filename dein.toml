@@ -90,13 +90,16 @@ hook_add = '''
   " # Disable fuzzy match.
   let g:asyncomplete_smart_completion = 0
 
-  " # Output logs.
+  " # Output log.
   " # let g:asyncomplete_log_file =
+
+  " # Close completion menu when starting a new line.
+  inoremap <expr> <RETURN> pumvisible() ? "<C-y><RETURN>" : "<RETURN>"
 '''
 
 [[plugins]]
 repo = "prabirshrestha/asyncomplete-buffer.vim"
-hook_source = '''
+hook_add = '''
   autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(
   \ asyncomplete#sources#buffer#get_source_options({
   \   "name": "buffer",
@@ -109,7 +112,7 @@ hook_source = '''
 
 [[plugins]]
 repo = "prabirshrestha/asyncomplete-file.vim"
-hook_source = '''
+hook_add = '''
   autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(
   \ asyncomplete#sources#file#get_source_options({
   \   "name": "file",
@@ -123,7 +126,7 @@ hook_source = '''
 [[plugins]]
 repo = "prabirshrestha/asyncomplete-necosyntax.vim"
 depends = ["neco-syntax"]
-hook_source = '''
+hook_add = '''
   autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(
   \ asyncomplete#sources#necosyntax#get_source_options({
   \   "name": "necosyntax",
@@ -137,7 +140,7 @@ hook_source = '''
 [[plugins]]
 repo = "prabirshrestha/asyncomplete-necovim.vim"
 depends = ["neco-vim"]
-hook_source = '''
+hook_add = '''
   autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(
   \ asyncomplete#sources#necovim#get_source_options({
   \   "name": "necovim",
@@ -151,7 +154,7 @@ hook_source = '''
 [[plugins]]
 repo = "prabirshrestha/asyncomplete-neosnippet.vim"
 depends = ["neosnippet.vim"]
-hook_source = '''
+hook_add = '''
   autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(
   \ asyncomplete#sources#neosnippet#get_source_options({
   \   "name": "neosnippet",
