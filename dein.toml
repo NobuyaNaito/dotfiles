@@ -2,38 +2,6 @@
 # Put this file in <~/.vim/bundles/>.
 
 [[plugins]]
-repo = "Shougo/neosnippet.vim"
-hook_add = '''
-  " # Disable default snippets.
-  let g:neosnippet#disable_runtime_snippets = {
-  \ "_": 1
-  \ }
-
-  let g:neosnippet#snippets_directory = "~/dotfiles/snippets/"
-  command! Snip NeoSnippetEdit
-
-  " # Plugin key-mappings.
-  " # Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-  imap <C-j> <Plug>(neosnippet_expand_or_jump)
-  smap <C-j> <Plug>(neosnippet_expand_or_jump)
-  xmap <C-j> <Plug>(neosnippet_expand_target)
-
-  " # SuperTab like snippets behavior.
-  " # Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-  "# imap <expr><TAB>
-  " # \ pumvisible() ? "\<C-n>" :
-  " # \ neosnippet#expandable_or_jumpable() ?
-  " # \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-  \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-  " # For conceal markers.
-  if has('conceal')
-    set conceallevel=2 concealcursor=niv
-  endif
-'''
-
-[[plugins]]
 repo = "tpope/vim-fugitive"
 
 [[plugins]]
@@ -74,10 +42,10 @@ repo = "zeero/vim-ctrlp-help"
 depends = ["ctrlpvim/ctrlp.vim"]
 hook_add = '''
   " # Enable extension help.
-  let g:ctrlp_extensions = ["mixed","help"]
+  let g:ctrlp_extensions = ["help"]
 
   " # Add help to the core types.
-  let g:ctrlp_types = ["mru","mxd","hlp"]
+  let g:ctrlp_types = ["mru","buf","fil","hlp"]
 '''
 
 [[plugins]]
@@ -108,22 +76,59 @@ hook_add = '''
 
 #===============================================================================
 #===============================================================================
-# Completion.
+# asyncomplete.vim
 
 [[plugins]]
 repo = "prabirshrestha/asyncomplete.vim"
 hook_add = '''
+  " # Avoid ins completion menu messages.
   set shortmess+=c
+
+  " # Disable tag completion.
+  set complete-=t
+
+  " # Disable fuzzy match.
+  let g:asyncomplete_smart_completion = 0
+
+  " # Output logs.
+  " # let g:asyncomplete_log_file =
+'''
+
+[[plugins]]
+repo = "prabirshrestha/asyncomplete-buffer.vim"
+hook_source = '''
+  autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(
+  \ asyncomplete#sources#buffer#get_source_options({
+  \   "name": "buffer",
+  \   "whitelist": ['*'],
+  \   "priority": 4,
+  \   "completor": function('asyncomplete#sources#buffer#completor'),
+  \ })
+  \ )
+'''
+
+[[plugins]]
+repo = "prabirshrestha/asyncomplete-file.vim"
+hook_source = '''
+  autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(
+  \ asyncomplete#sources#file#get_source_options({
+  \   "name": "file",
+  \   "whitelist": ['*'],
+  \   "priority": 8,
+  \   "completor": function('asyncomplete#sources#file#completor'),
+  \ })
+  \ )
 '''
 
 [[plugins]]
 repo = "prabirshrestha/asyncomplete-necosyntax.vim"
-depends = ["asyncomplete.vim"]
+depends = ["neco-syntax"]
 hook_source = '''
   autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(
   \ asyncomplete#sources#necosyntax#get_source_options({
   \   "name": "necosyntax",
   \   "whitelist": ['*'],
+  \   "priority": 2,
   \   "completor": function('asyncomplete#sources#necosyntax#completor'),
   \ })
   \ )
@@ -131,24 +136,73 @@ hook_source = '''
 
 [[plugins]]
 repo = "prabirshrestha/asyncomplete-necovim.vim"
-depends = ["asyncomplete.vim"]
+depends = ["neco-vim"]
 hook_source = '''
   autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(
   \ asyncomplete#sources#necovim#get_source_options({
   \   "name": "necovim",
   \   "whitelist": ['vim'],
+  \   "priority": 6,
   \   "completor": function('asyncomplete#sources#necovim#completor'),
   \ })
   \ )
 '''
 
 [[plugins]]
+repo = "prabirshrestha/asyncomplete-neosnippet.vim"
+depends = ["neosnippet.vim"]
+hook_source = '''
+  autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(
+  \ asyncomplete#sources#neosnippet#get_source_options({
+  \   "name": "neosnippet",
+  \   "priority": 10,
+  \   "whitelist": ['*'],
+  \   "completor": function('asyncomplete#sources#neosnippet#completor'),
+  \ })
+  \ )
+'''
+
+#===============================================================================
+#===============================================================================
+# Completion sources.
+
+[[plugins]]
 repo = "Shougo/neco-syntax"
-lazy = 1
 
 [[plugins]]
 repo = "Shougo/neco-vim"
-lazy = 1
+
+[[plugins]]
+repo = "Shougo/neosnippet.vim"
+hook_add = '''
+  " # Disable default snippets.
+  let g:neosnippet#disable_runtime_snippets = {
+  \ "_": 1
+  \ }
+
+  let g:neosnippet#snippets_directory = "~/dotfiles/snippets/"
+  command! Snip NeoSnippetEdit
+
+  " # Plugin key-mappings.
+  " # Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+  imap <C-j> <Plug>(neosnippet_expand_or_jump)
+  smap <C-j> <Plug>(neosnippet_expand_or_jump)
+  xmap <C-j> <Plug>(neosnippet_expand_target)
+
+  " # SuperTab like snippets behavior.
+  " # Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+  "# imap <expr><TAB>
+  " # \ pumvisible() ? "\<C-n>" :
+  " # \ neosnippet#expandable_or_jumpable() ?
+  " # \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+  \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+  " # For conceal markers.
+  if has('conceal')
+    set conceallevel=2 concealcursor=niv
+  endif
+'''
 
 #===============================================================================
 #===============================================================================
