@@ -13,3 +13,29 @@ abbr        MODULE IMPLICIT NONE END MODULE
 		IMPLICIT NONE
 		${0:TARGET}
 	END MODULE $1
+
+snippet     TYP
+abbr        TYPE :: END TYPE
+	TYPE${1} :: ${2}
+		${0:TARGET}
+	END TYPE $2
+
+snippet     PRO
+abbr        PROGRAM IMPLICIT NONE END PROGRAM
+	PROGRAM ${1}
+		${2}
+		IMPLICIT NONE
+		${0:TARGET}
+	END PROGRAM $1
+
+snippet     IF
+abbr        IF() THEN END IF
+	IF(${1}) THEN
+		${0:TARGET}
+	END IF
+
+snippet     DO
+abbr        DO END DO
+	DO ${1}
+		${0:TARGET}
+	END DO
