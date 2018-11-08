@@ -75,7 +75,11 @@ hook_add = '''
   \ },
   \ "sh": {
   \   "type": "sh",
-  \   "command": "sh"
+  \   "command": ":AsyncRun",
+  \   "runner": "vimscript",
+  \   "outputter": "null",
+  \   "exec": "%C sh %S",
+  \   "hook/shebang/enable": 0,
   \ },
   \ "gp": {
   \   "type": "gp",
@@ -83,6 +87,12 @@ hook_add = '''
   \   "exec": "%c -p -e 'load " . '"%s"' . "'"
   \ }
   \ }
+'''
+
+[[plugins]]
+repo = "skywind3000/asyncrun.vim"
+hook_add = '''
+  let g:asyncrun_open = 10
 '''
 
 #===============================================================================
