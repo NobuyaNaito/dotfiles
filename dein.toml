@@ -75,16 +75,17 @@ hook_add = '''
   \ },
   \ "sh": {
   \   "type": "sh",
-  \   "command": ":AsyncRun",
+  \   "command": "sh",
   \   "runner": "vimscript",
   \   "outputter": "null",
-  \   "exec": "%C sh %S",
-  \   "hook/shebang/enable": 0,
+  \   "exec": ":AsyncRun %c %S",
   \ },
   \ "gp": {
   \   "type": "gp",
   \   "command": "gnuplot",
-  \   "exec": "%c -p -e 'load " . '"%s"' . "'"
+  \   "runner": "vimscript",
+  \   "outputter": "null",
+  \   "exec": ':AsyncRun %c -p -e "load ' . "'%S'" . '"'
   \ }
   \ }
 '''
