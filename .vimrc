@@ -124,7 +124,7 @@ augroup END
 set infercase
 
 " Options for ins completion.
-set completeopt="menu,preview"
+set completeopt=menu,menuone,preview
 
 augroup OmniFuncAll
   autocmd!
