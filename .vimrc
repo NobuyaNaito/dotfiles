@@ -62,7 +62,7 @@ inoremap <silent> <ESC> <ESC>:<CR>
 vnoremap <silent> <ESC> <ESC>:<CR>
 
 " search
-nnoremap <ESC><ESC> :set nohlsearch<CR>
+nnoremap <ESC><ESC> :set hlsearch!<CR>
 nnoremap / :set hlsearch<CR>/
 nnoremap ? :set hlsearch<CR>?
 nnoremap * :set hlsearch<CR>*
@@ -125,6 +125,14 @@ set infercase
 
 " Options for ins completion.
 set completeopt="menu,preview"
+
+augroup OmniFuncAll
+  autocmd!
+  autocmd FileType * 
+  \ if &l:omnifunc == ""
+  \ |   setlocal omnifunc=syntaxcomplete#Complete
+  \ | endif
+augroup END
 
 "===============================================================================
 "===============================================================================
