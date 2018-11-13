@@ -134,6 +134,9 @@ augroup OmniFuncAll
   \ | endif
 augroup END
 
+" Paste in insert mode.
+inoremap <expr> <C-p> pumvisible() ? "\<C-p>" : "\<C-r>" . '"'
+
 "===============================================================================
 "===============================================================================
 " Command line window.
@@ -157,6 +160,7 @@ function! s:InitCmdwin()
 
   " Quit cmdwin.
   nnoremap <buffer> q :quit<CR>
+  nnoremap <buffer> <ESC> :quit<CR>
   inoremap <buffer><expr> <BS> <SID>GetCurColumn()==1 ?
   \ "\<ESC>:quit<CR>" : "\<BS>"
 

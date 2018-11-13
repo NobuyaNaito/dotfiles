@@ -68,19 +68,27 @@ hook_source = '''
   \   "outputter": "quickfix"
   \ },
   \ "sh": {
-  \   "type": "sh",
   \   "command": "sh",
   \   "runner": "vimscript",
   \   "outputter": "null",
   \   "exec": ":AsyncRun %c %S",
   \ },
   \ "gp": {
-  \   "type": "gp",
   \   "command": "gnuplot",
   \   "runner": "vimscript",
   \   "outputter": "null",
   \   "exec": ':AsyncRun %c -p -e "load ' . "'%S'" . '"'
-  \ }
+  \ },
+  \ "fortran": {
+  \   "type": "fortran/ifort",
+  \ },
+  \ "fortran/ifort": {
+  \   "command": "ifort",
+  \   "runner": "vimscript",
+  \   "outputter": "null",
+  \   "exec": [":AsyncRun %c %o -o %s:p:r %s ; %s:p:r %a"],
+  \   "tempfile": "%{tempname()}.f90",
+  \ },
   \ }
 '''
 
