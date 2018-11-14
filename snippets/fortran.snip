@@ -39,3 +39,11 @@ abbr        DO END DO
 	DO ${1}
 		${0:TARGET}
 	END DO
+
+snippet     FUN
+abbr        FUNCTION () IMPLICIT NONE END FUNCTION
+	FUNCTION ${1}(${2})${3}
+		${4}
+		IMPLICIT NONE
+		${0:TARGET}
+	END FUNCTION $1

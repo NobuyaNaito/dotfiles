@@ -134,6 +134,9 @@ augroup OmniFuncAll
   \ | endif
 augroup END
 
+" Stop completion when editing completed text.
+inoremap <expr> <BS> pumvisible() ? "\<C-y>\<BS>" : "\<BS>"
+
 " Paste in insert mode.
 inoremap <expr> <C-p> pumvisible() ? "\<C-p>" : "\<C-r>" . '"'
 
