@@ -137,8 +137,39 @@ augroup END
 " Stop completion when editing completed text.
 inoremap <expr> <BS> pumvisible() ? "\<C-y>\<BS>" : "\<BS>"
 
-" Paste in insert mode.
-inoremap <expr> <C-p> pumvisible() ? "\<C-p>" : "\<C-r>" . '"'
+"===============================================================================
+"===============================================================================
+" Insert mode mappings.
+
+" Insert '%'.
+inoremap <silent><expr> <C-p> pumvisible() ? "\<C-p>" : "%"
+
+" Linebreak for Fortran.
+inoremap <silent> <C-f><CR> <Space>&<CR>&<Space>
+
+" Insert character toward the 80th column.
+inoremap <silent> <C-f>- <C-\><C-o>:call <SID>InsertComment80("-")<CR><Right>
+inoremap <silent> <C-f>= <C-\><C-o>:call <SID>InsertComment80("=")<CR><Right>
+inoremap <silent> <C-f>! <C-\><C-o>:call <SID>InsertComment80("!")<CR><Right>
+
+" Fill from cursor position to 80th column with a:char.
+" The argument must be a character.
+function! s:InsertComment80(char)
+
+  " Save virtualedit setting.
+  let l:vesave = &virtualedit
+
+  " Required.
+  set virtualedit=onemore
+
+  let l:num = 81 - s:GetCurColumn()
+  let l:cmd = "normal " . l:num . "R" . a:char
+  execute l:cmd
+
+  " Load virtualedit setting.
+  let &virtualedit = l:vesave
+
+endfunction
 
 "===============================================================================
 "===============================================================================
@@ -175,7 +206,12 @@ function! s:InitCmdwin()
 
   " Start with insert mode.
   startinsert!
+
 endfunction
+
+"===============================================================================
+"===============================================================================
+" Generic functions.
 
 " Get cursor column number.
 function! s:GetCurColumn()
