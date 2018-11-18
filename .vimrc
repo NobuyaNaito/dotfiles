@@ -194,9 +194,11 @@ function! s:InitCmdwin()
 
   " Quit cmdwin.
   nnoremap <buffer> q :quit<CR>
-  nnoremap <buffer> <ESC> :quit<CR>
+  nnoremap <buffer><nowait> <ESC> :quit<CR>
   inoremap <buffer><expr> <BS> <SID>GetCurColumn()==1 ?
   \ "\<ESC>:quit<CR>" : "\<BS>"
+  inoremap <buffer><expr> <C-h> <SID>GetCurColumn()==1 ?
+  \ "\<ESC>:quit<CR>" : "\<C-h>"
 
   " Move upward or downward.
   inoremap <buffer> <C-j> <C-g><C-j><ESC>

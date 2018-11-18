@@ -1,0 +1,34 @@
+snippet			snippet
+abbr				snippet
+alias				s sn sni snip
+options			head
+	snippet			${0:#:optional = [ab]br, [al]ias, [r]egexp, [o]ptions}
+
+snippet			abbr
+abbr				abbr
+alias				ab abb abbr
+options			head
+	abbr				${0:#:displayed in drop down menu}
+
+snippet			alias
+abbr				alias
+alias				al ali alia
+options			head
+	alias				${0:#:addtional keywords for expanding}
+
+snippet			regexp
+abbr				regexp
+alias				r re reg
+options			head
+	regexp			${0:#:expandable when matched}
+
+snippet			options
+abbr				options
+alias				o op opt
+options			head
+	options			${0:#:word / head / indent}
+
+snippet			$
+abbr				${ }
+options			word
+	\${${1:#:number[\:default / \:\#\:comment]}}${0}
