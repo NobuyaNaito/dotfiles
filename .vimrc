@@ -106,7 +106,7 @@ set backspace=indent,eol,start
 
 augroup QuickFixOpen
   autocmd!
-  autocmd QuickFixCmdPost make,*grep* cwindow
+  autocmd QuickFixCmdPost make,*grep* copen
 augroup END
 
 augroup QuickFixVerticalRight
@@ -144,13 +144,26 @@ inoremap <expr> <BS> pumvisible() ? "\<C-y>\<BS>" : "\<BS>"
 " Insert '%'.
 inoremap <silent><expr> <C-p> pumvisible() ? "\<C-p>" : "%"
 
-" Linebreak for Fortran.
-inoremap <silent> <C-f><CR> <Space>&<CR>&<Space>
+" Insert linebreak and continue sentence.
+inoremap <silent><expr> <C-f><CR> <SID>SpecialLineBreak()
 
 " Insert character toward the 80th column.
 inoremap <silent> <C-f>- <C-\><C-o>:call <SID>InsertComment80("-")<CR><Right>
 inoremap <silent> <C-f>= <C-\><C-o>:call <SID>InsertComment80("=")<CR><Right>
 inoremap <silent> <C-f>! <C-\><C-o>:call <SID>InsertComment80("!")<CR><Right>
+
+" Return string to be typed for linebreak.
+function! s:SpecialLineBreak()
+
+  if (&filetype ==# "fortran")
+    return "\<Space>&\<CR>&\<Space>"
+  elseif (&filetype ==# "vim")
+    return "\<CR>\\\<Space>"
+  else
+    return "\<CR>"
+  endif
+
+endfunction
 
 " Fill from cursor position to 80th column with a:char.
 " The argument must be a character.

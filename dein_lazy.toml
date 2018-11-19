@@ -73,11 +73,28 @@ hook_source = '''
   \   "outputter": "null",
   \   "exec": ":AsyncRun %c %S",
   \ },
+  \
   \ "gp": {
+  \   "type": "load",
+  \ },
+  \ "plot": {
+  \   "command": "gnuplot",
+  \   "runner": "vimscript",
+  \   "outputter": "null",
+  \   "exec": ':AsyncRun %c -p -e "plot ' . "'%S'" . '"'
+  \ },
+  \ "splot": {
+  \   "command": "gnuplot",
+  \   "runner": "vimscript",
+  \   "outputter": "null",
+  \   "exec": ':AsyncRun %c -p -e "splot ' . "'%S'" . '"'
+  \ },
+  \ "load": {
   \   "command": "gnuplot",
   \   "runner": "vimscript",
   \   "outputter": "null",
   \   "exec": ':AsyncRun %c -p -e "load ' . "'%S'" . '"'
+  \ 
   \ },
   \ "c": {
   \   "type": "c/gcc",
@@ -89,6 +106,7 @@ hook_source = '''
   \   "exec": [":AsyncRun %c %o %s -o %s:p:h/a.out ; %s:p:h/a.out %a"],
   \   "tempfile": "%{tempname()}.c",
   \ },
+  \ 
   \ "fortran": {
   \   "type": "fortran/ifort",
   \ },
@@ -99,6 +117,13 @@ hook_source = '''
   \   "exec": [":AsyncRun %c %o -o %s:p:r %s ; %s:p:r %a"],
   \   "tempfile": "%{tempname()}.f90",
   \ },
+  \ 
+  \ "gaussfit": {
+  \   "command": $HOME . "/FreeFlex/gauss_fit.exe",
+  \   "runner": "vimscript",
+  \   "outputter": "null",
+  \   "exec": [":AsyncRun %c %s"],
+  \ },
   \ }
 '''
 
@@ -108,6 +133,60 @@ on_event = "VimEnter"
 hook_source = '''
   " # Open quickfix window automatically.
   let g:asyncrun_open = 10
+
+  " # Alternative make command.
+  " # Changing global cwd to the project root in advance
+  " # is required for error/warning jump.
+  command! -bang -nargs=* Make AsyncRun -program=make -cwd=<root> @ <args>
+
+  " # Open quickfix window automatically without focusing on it.
+  augroup AsyncRunCmd
+    autocmd!
+    autocmd User AsyncRunStart call <SID>QuickfixToggleVertical(100,1)
+  augroup END
+
+  " # Copied from asyncrun#quickfix_toggle.
+  " # Vertical split. First argument is window width.
+  function! s:QuickfixToggleVertical(size, ...)
+    let l:mode = (a:0 == 0)? 2 : (a:1)
+    function! s:WindowCheck(mode)
+      if &buftype == 'quickfix'
+        let s:quickfix_open = 1
+        return
+      endif
+      if a:mode == 0
+        let w:quickfix_save = winsaveview()
+      else
+        if exists('w:quickfix_save')
+          call winrestview(w:quickfix_save)
+          unlet w:quickfix_save
+        endif
+      endif
+    endfunc
+    let s:quickfix_open = 0
+    let l:winnr = winnr()			
+    noautocmd windo call s:WindowCheck(0)
+    noautocmd silent! exec ''.l:winnr.'wincmd w'
+    if l:mode == 0
+      if s:quickfix_open != 0
+        silent! cclose
+      endif
+    elseif l:mode == 1
+      if s:quickfix_open == 0
+        exec 'vertical botright copen '. ((a:size > 0)? a:size : ' ')
+        wincmd k
+      endif
+    elseif l:mode == 2
+      if s:quickfix_open == 0
+        exec 'vertical botright copen '. ((a:size > 0)? a:size : ' ')
+        wincmd k
+      else
+        silent! cclose
+      endif
+    endif
+    noautocmd windo call s:WindowCheck(1)
+    noautocmd silent! exec ''.l:winnr.'wincmd w'
+  endfunc
 '''
 
 #===============================================================================
@@ -129,6 +208,7 @@ hook_add = '''
 
   " # Enable asyncomplete for filetypes in whitelist.
   " # Not triggered when entering the command line window.
+  " # ERROR when files are specified in shell command argument.
   autocmd AsyncompCmd BufEnter * call <SID>AsyncompleteEnableForFT()
 
   function! s:AsyncompleteEnableForFT()
