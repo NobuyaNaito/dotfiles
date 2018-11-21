@@ -5,6 +5,30 @@
 repo = "tpope/vim-fugitive"
 on_event = "VimEnter"
 
+[[plugins]]
+repo = "kana/vim-submode"
+on_event = "VimEnter"
+hook_source = '''
+  " # Show current submode even if 'showmode' is disabled.
+  let g:submode_always_show_submode = 1
+
+  " # Unmapped keys are processed after leaving submode.
+  let g:submode_keep_leaving_key = 1
+
+  " # Time out on submode is disabled.
+  let g:submode_timeout = 0
+
+  " # Submode 'window'.
+  call submode#enter_with("window","n","","<C-w>>","<C-w>>")
+  call submode#enter_with("window","n","","<C-w><","<C-w><")
+  call submode#enter_with("window","n","","<C-w>+","<C-w>+")
+  call submode#enter_with("window","n","","<C-w>-","<C-w>-")
+  call submode#map("window","n","",">","<C-w>>")
+  call submode#map("window","n","","<","<C-w><")
+  call submode#map("window","n","","+","<C-w>+")
+  call submode#map("window","n","","-","<C-w>-")
+'''
+
 #===============================================================================
 #===============================================================================
 # ctrlp.vim
