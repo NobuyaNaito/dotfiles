@@ -138,7 +138,7 @@ hook_source = '''
   \   "command": "ifort",
   \   "runner": "vimscript",
   \   "outputter": "null",
-  \   "exec": [":AsyncRun %c %o -o %s:p:r %s ; %s:p:r %a"],
+  \   "exec": [":AsyncRun %c %o -o %s:p:h/a.out %s ; %s:p:h/a.out %a"],
   \   "tempfile": "%{tempname()}.f90",
   \ },
   \ 

@@ -137,6 +137,25 @@ augroup END
 " Stop completion when editing completed text.
 inoremap <expr> <BS> pumvisible() ? "\<C-y>\<BS>" : "\<BS>"
 
+" Toggle boolean value.
+nnoremap <expr> <C-n> <SID>ToggleBoolean(expand("<cword>"))
+
+function! s:ToggleBoolean(word)
+
+  if (a:word ==# "TRUE")
+    return "ciwFALSE\<ESC>"
+  elseif (a:word ==# "FALSE")
+    return "ciwTRUE\<ESC>"
+  elseif (a:word ==# "true")
+    return "ciwfalse\<ESC>"
+  elseif (a:word ==# "false")
+    return "ciwtrue\<ESC>"
+  else
+    return ""
+  endif
+
+endfunction
+
 "===============================================================================
 "===============================================================================
 " Insert mode mappings.
@@ -144,13 +163,17 @@ inoremap <expr> <BS> pumvisible() ? "\<C-y>\<BS>" : "\<BS>"
 " Insert '%'.
 inoremap <silent><expr> <C-p> pumvisible() ? "\<C-p>" : "%"
 
+" Insert boolean value.
+inoremap <C-f>i .TRUE.
+inoremap <C-f>o .FALSE.
+
 " Insert linebreak and continue sentence.
 inoremap <silent><expr> <C-f><CR> <SID>SpecialLineBreak()
 
 " Insert character toward the 80th column.
-inoremap <silent> <C-f>- <C-\><C-o>:call <SID>InsertComment80("-")<CR><Right>
-inoremap <silent> <C-f>= <C-\><C-o>:call <SID>InsertComment80("=")<CR><Right>
-inoremap <silent> <C-f>! <C-\><C-o>:call <SID>InsertComment80("!")<CR><Right>
+inoremap <silent> <C-f>m <C-\><C-o>:call <SID>InsertComment80("-")<CR><Right>
+inoremap <silent> <C-f>e <C-\><C-o>:call <SID>InsertComment80("=")<CR><Right>
+inoremap <silent> <C-f>x <C-\><C-o>:call <SID>InsertComment80("!")<CR><Right>
 
 " Return string to be typed for linebreak.
 function! s:SpecialLineBreak()
