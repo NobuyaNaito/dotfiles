@@ -226,26 +226,6 @@ hook_add = '''
   augroup END
 
   let g:asyncomplete_enable_for_all = 0
-
-  " # Filetype whitelist.
-  let s:AsyncompleteEnableFTList = ["vim","toml"]
-
-  " # Enable asyncomplete for filetypes in whitelist.
-  " # Not triggered when entering the command line window.
-  " # ERROR when files are specified in shell command argument.
-  autocmd AsyncompCmd BufEnter * call <SID>AsyncompleteEnableForFT()
-
-  function! s:AsyncompleteEnableForFT()
-
-    " # Search whitelist for current filetype.
-    for ft in s:AsyncompleteEnableFTList
-      if (&filetype ==# ft)
-        call asyncomplete#enable_for_buffer()
-        return
-      endif
-    endfor
-
-  endfunction
 '''
 hook_source = '''
   " # Avoid ins completion menu messages.
@@ -259,6 +239,29 @@ hook_source = '''
 
   " # Close completion menu when starting a new line.
   inoremap <expr> <RETURN> pumvisible() ? "<C-y><RETURN>" : "<RETURN>"
+'''
+hook_post_source = '''
+  " # Filetype whitelist.
+  let s:AsyncompleteEnableFTList = ["vim","toml"]
+
+  " # Enable asyncomplete for filetypes in whitelist.
+  function! s:AsyncompleteEnableForFT()
+
+    " # Search whitelist for current filetype.
+    for ft in s:AsyncompleteEnableFTList
+      if (&filetype ==# ft)
+        call asyncomplete#enable_for_buffer()
+        return
+      endif
+    endfor
+
+  endfunction
+
+  " # Not triggered when entering the command line window.
+  autocmd AsyncompCmd BufEnter * call <SID>AsyncompleteEnableForFT()
+
+  " # Autocmd is not executed for the first file.
+  call <SID>AsyncompleteEnableForFT()
 '''
 
 # Autocomplete "syntax".
