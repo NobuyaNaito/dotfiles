@@ -168,7 +168,10 @@ inoremap <C-f>i .TRUE.
 inoremap <C-f>o .FALSE.
 
 " Insert linebreak and continue sentence.
-inoremap <silent><expr> <C-f><CR> <SID>SpecialLineBreak()
+inoremap <silent><expr> <C-f><C-n> <SID>SpecialLineBreak()
+
+" Insert linebreak keeping indent and Fortran comment.
+inoremap <silent><expr> <C-f><CR> <SID>SmartLineBreak('!*')
 
 " Insert character toward the 80th column.
 inoremap <silent> <C-f>m <C-\><C-o>:call <SID>InsertComment80("-")<CR><Right>
@@ -185,6 +188,15 @@ function! s:SpecialLineBreak()
   else
     return "\<CR>"
   endif
+
+endfunction
+
+" Return command for linebreak keeping indent and given pattern.
+function! s:SmartLineBreak(pat)
+
+  let l:CurLine = s:GetCurLine()
+  let l:string = matchstr(getline(l:CurLine),'^ *' . a:pat . ' *')
+  return "\<CR>0\<C-d>" . l:string
 
 endfunction
 
@@ -255,6 +267,12 @@ endfunction
 function! s:GetCurColumn()
   let l:CurPos = getcurpos()
   return l:CurPos[2]
+endfunction
+
+" Get cursor line number.
+function! s:GetCurLine()
+  let l:CurPos = getcurpos()
+  return l:CurPos[1]
 endfunction
 
 "===============================================================================
