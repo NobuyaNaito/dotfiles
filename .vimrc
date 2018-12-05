@@ -160,6 +160,9 @@ endfunction
 "===============================================================================
 " Insert mode mappings.
 
+" Prevent inserting Ctrl-F.
+inoremap <C-f> <Nop>
+
 " Insert '%'.
 inoremap <silent><expr> <C-p> pumvisible() ? "\<C-p>" : "%"
 
