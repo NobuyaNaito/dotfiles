@@ -77,9 +77,6 @@ hi! MoreMsg cterm=NONE ctermfg=2 ctermbg=NONE guifg=#b4be82
 hi! Question cterm=NONE ctermfg=2 ctermbg=NONE guifg=#b4be82
 hi! Title cterm=NONE ctermfg=3 ctermbg=NONE gui=NONE guifg=#e2a478
 
-hi! ExcessColumn cterm=reverse ctermfg=NONE ctermbg=NONE
-call matchadd ("ExcessColumn",'.\%>81v')
-
 "===============================================================================
 "===============================================================================
 " iceberg.vim

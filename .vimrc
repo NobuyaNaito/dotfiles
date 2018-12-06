@@ -62,13 +62,7 @@ inoremap <silent> <ESC> <ESC>:<CR>
 vnoremap <silent> <ESC> <ESC>:<CR>
 
 " search
-nnoremap <ESC><ESC> :set hlsearch!<CR>
-nnoremap / :set hlsearch<CR>/
-nnoremap ? :set hlsearch<CR>?
-nnoremap * :set hlsearch<CR>*
-nnoremap # :set hlsearch<CR>#
-nnoremap g* :set hlsearch<CR>g*
-nnoremap g# :set hlsearch<CR>g#
+nnoremap <ESC><ESC> :nohlsearch<CR>
 set hlsearch
 set incsearch
 set ignorecase
@@ -284,3 +278,13 @@ endfunction
 
 "colorscheme myscheme
 colorscheme myiceberg
+
+" Highlight over 80th column.
+hi! OverLength cterm=reverse ctermfg=NONE ctermbg=NONE
+
+" Automatic matching.
+augroup MyAutoMatch
+  autocmd!
+  autocmd VimEnter,WinEnter * call clearmatches()
+  autocmd VimEnter,WinEnter * call matchadd("OverLength",'.\%>81v')
+augroup END
