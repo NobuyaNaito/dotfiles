@@ -76,6 +76,7 @@ hi! Search cterm=NONE ctermfg=0 ctermbg=3 guibg=#e4aa80 guifg=#392313
 hi! MoreMsg cterm=NONE ctermfg=2 ctermbg=NONE guifg=#b4be82
 hi! Question cterm=NONE ctermfg=2 ctermbg=NONE guifg=#b4be82
 hi! Title cterm=NONE ctermfg=3 ctermbg=NONE gui=NONE guifg=#e2a478
+hi! MatchParen cterm=NONE ctermfg=NONE ctermbg=238 guibg=#3e445e guifg=#ffffff
 
 "===============================================================================
 "===============================================================================
@@ -106,7 +107,7 @@ hi! FoldColumn ctermbg=235 ctermfg=239 guibg=#1e2132 guifg=#444b71
 "hi! Identifier cterm=NONE ctermfg=109 guifg=#89b8c2
 "hi! Include ctermfg=110 guifg=#84a0c6
 "hi! LineNr ctermbg=235 ctermfg=239 guibg=#1e2132 guifg=#444b71
-hi! MatchParen ctermbg=237 ctermfg=255 guibg=#3e445e guifg=#ffffff
+"hi! MatchParen ctermbg=237 ctermfg=255 guibg=#3e445e guifg=#ffffff
 "hi! MoreMsg ctermfg=150 guifg=#b4be82
 "hi! Normal ctermbg=234 ctermfg=252 guibg=#161821 guifg=#c6c8d1
 "hi! Operator ctermfg=110 guifg=#84a0c6
