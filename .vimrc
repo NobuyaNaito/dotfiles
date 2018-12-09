@@ -150,6 +150,15 @@ function! s:ToggleBoolean(word)
 
 endfunction
 
+" Helpgrep to search only for indexes.
+command! -nargs=+ HG call s:MyHelpGrep(<q-args>)
+
+function! s:MyHelpGrep(args)
+  let str = substitute(a:args,'\s\+','\\S\*','g')
+  let str = '\c\*\S*' . str . '\S*\*'
+  execute 'helpgrep' str
+endfunction
+
 "===============================================================================
 "===============================================================================
 " Insert mode mappings.
@@ -168,7 +177,7 @@ inoremap <C-f>o .FALSE.
 inoremap <silent><expr> <C-f><C-n> <SID>SpecialLineBreak()
 
 " Insert linebreak keeping indent and Fortran comment.
-inoremap <silent><expr> <C-f><CR> <SID>SmartLineBreak('!*')
+inoremap <silent><expr> <C-f><CR> <SID>SmartLineBreak()
 
 " Insert character toward the 80th column.
 inoremap <silent> <C-f>m <C-\><C-o>:call <SID>InsertComment80("-")<CR><Right>
@@ -189,11 +198,18 @@ function! s:SpecialLineBreak()
 endfunction
 
 " Return command for linebreak keeping indent and given pattern.
-function! s:SmartLineBreak(pat)
+function! s:SmartLineBreak()
 
   let l:CurLine = s:GetCurLine()
-  let l:string = matchstr(getline(l:CurLine),'^ *' . a:pat . ' *')
-  return "\<CR>0\<C-d>" . l:string
+  if (&filetype ==# "fortran")
+    let l:string = matchstr(getline(l:CurLine),'^ *!* *')
+    return "\<CR>0\<C-d>" . l:string
+  elseif (&filetype ==# "vim")
+    let l:string = matchstr(getline(l:CurLine),'^ *"* *')
+    return "\<CR>0\<C-d>" . l:string
+  else
+    return "\<CR>"
+  endif
 
 endfunction
 
@@ -286,5 +302,6 @@ hi! OverLength cterm=reverse ctermfg=NONE ctermbg=NONE
 augroup MyAutoMatch
   autocmd!
   autocmd VimEnter,WinEnter * call clearmatches()
-  autocmd VimEnter,WinEnter * call matchadd("OverLength",'.\%>81v')
+  autocmd VimEnter,WinEnter *
+  \ if (&modifiable) | call matchadd("OverLength",'.\%>81v') | endif
 augroup END

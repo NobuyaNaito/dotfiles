@@ -25,6 +25,8 @@ hook_add = '''
     \ },
     \ "component_function": {
     \   "readonly": "LightlineReadonly",
+    \   "fileformat": "LightlineFileformat",
+    \   "fileencoding": "LightlineFileencoding",
     \   "fugitive": "LightlineFugitive",
     \ },
     \ "separator": {
@@ -47,6 +49,14 @@ hook_add = '''
 
   function! LightlineReadonly()
     return &readonly ? "⭤" : ""
+  endfunction
+
+  function! LightlineFileformat()
+    return winwidth(0) > 80 ? &fileformat : ""
+  endfunction
+
+  function! LightlineFileencoding()
+    return winwidth(0) > 80 ? &fileencoding : ""
   endfunction
 
   function! LightlineFugitive()

@@ -18,15 +18,25 @@ hook_source = '''
   " # Time out on submode is disabled.
   let g:submode_timeout = 0
 
-  " # Submode 'window'.
-  call submode#enter_with("window","n","","<C-w>>","<C-w>>")
-  call submode#enter_with("window","n","","<C-w><","<C-w><")
-  call submode#enter_with("window","n","","<C-w>+","<C-w>+")
-  call submode#enter_with("window","n","","<C-w>-","<C-w>-")
-  call submode#map("window","n","",">","<C-w>>")
-  call submode#map("window","n","","<","<C-w><")
-  call submode#map("window","n","","+","<C-w>+")
-  call submode#map("window","n","","-","<C-w>-")
+  " # Submode 'resize_window'.
+  call submode#enter_with("resize_window","n","","<C-w>>","<C-w>>")
+  call submode#enter_with("resize_window","n","","<C-w><","<C-w><")
+  call submode#enter_with("resize_window","n","","<C-w>+","<C-w>+")
+  call submode#enter_with("resize_window","n","","<C-w>-","<C-w>-")
+  call submode#map("resize_window","n","",">","<C-w>>")
+  call submode#map("resize_window","n","","<","<C-w><")
+  call submode#map("resize_window","n","","+","<C-w>+")
+  call submode#map("resize_window","n","","-","<C-w>-")
+
+  " # Submode 'move_window'.
+  call submode#enter_with("move_window","n","","<C-w><C-h>","<C-w>h")
+  call submode#enter_with("move_window","n","","<C-w><C-j>","<C-w>j")
+  call submode#enter_with("move_window","n","","<C-w><C-k>","<C-w>k")
+  call submode#enter_with("move_window","n","","<C-w><C-l>","<C-w>l")
+  call submode#map("move_window","n","","<C-h>","<C-w>h")
+  call submode#map("move_window","n","","<C-j>","<C-w>j")
+  call submode#map("move_window","n","","<C-k>","<C-w>k")
+  call submode#map("move_window","n","","<C-l>","<C-w>l")
 '''
 
 [[plugins]]
@@ -45,6 +55,26 @@ hook_source =  '''
 repo = "ctrlpvim/ctrlp.vim"
 on_event = "VimEnter"
 hook_source = '''
+  " # Mapping to invoke CtrlP.
+  let g:ctrlp_map = '<C-p>'
+
+  " # Mappings.
+  nnoremap <silent> <C-p><C-p> :CtrlP<CR>
+  nnoremap <silent> <C-p><C-b> :CtrlPBuffer<CR>
+  nnoremap <silent> <C-p><C-d> :CtrlPDir<CR>
+  nnoremap <silent> <C-p><C-r> :CtrlPRTS<CR>
+  nnoremap <silent> <C-p><C-m> :CtrlPMixed<CR>
+  nnoremap <silent> <C-p><C-h> :CtrlPHelp<CR>
+
+  " # Type <C-c> to clear the cache.
+  let g:ctrlp_prompt_mappings = {
+  \ 'PrtClearCache()': ['<F5>', '<C-c>'],
+  \ 'PrtExit()': ['<ESC>', '<C-g>'],
+  \ }
+
+  " # Set core types.
+  let g:ctrlp_types = ["mru","fil","buf"]
+
   " # Add home directory to the roots.
   let g:ctrlp_root_markers = ["dotfiles"]
 
@@ -57,17 +87,22 @@ hook_source = '''
   " # Do not clear cache when exiting vim.
   let g:ctrlp_clear_cache_on_exit = 0
 
-  " # Scan for dotfiles and dotdirs.
-  let g:ctrlp_show_hidden = 1
+  " # Do not scan for dotfiles and dotdirs.
+  let g:ctrlp_show_hidden = 0
+
+  " # Ignore dotdirs excluding '.vim/'.
+  "let g:ctrlp_custom_ignore = {
+  "\ 'dir': '[\\/]\.\(vim\)\@![^\\/]*'
+  "\ }
 
   " # Enable lazy update.
   let g:ctrlp_lazy_update = 150
 
-  " # Enable extension help.
-  let g:ctrlp_extensions = ["help"]
+  " # Follow symbolic links.
+  let g:ctrlp_follow_symlinks = 2
 
-  " # Set core types.
-  let g:ctrlp_types = ["mru","buf","fil","hlp"]
+  " # MRU remembers configure files.
+  let g:ctrlp_mruf_include = '\.\w*rc$'
 '''
 
 # CtrlP extension "help". 
@@ -401,9 +436,13 @@ on_ft = "toml"
 hook_source = '''
   " # Enable switching filetype automatically.
   " # Required for avoiding switching in 'help'.
-  let g:precious_enable_switch_CursorMoved = {
-  \   "*": 0,
-  \   "toml": 1,
+  let g:precious_enable_switchers = {
+  \ '*': {
+  \   'setfiletype': 0
+  \ },
+  \ 'toml': {
+  \   'setfiletype': 1
+  \ }
   \ }
 '''
 
