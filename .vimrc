@@ -301,7 +301,7 @@ hi! OverLength cterm=reverse ctermfg=NONE ctermbg=NONE
 " Automatic matching.
 augroup MyAutoMatch
   autocmd!
-  autocmd VimEnter,WinEnter * call clearmatches()
-  autocmd VimEnter,WinEnter *
+  autocmd BufWinEnter,WinEnter * call clearmatches()
+  autocmd BufWinEnter,WinEnter *
   \ if (&modifiable) | call matchadd("OverLength",'.\%>81v') | endif
 augroup END
