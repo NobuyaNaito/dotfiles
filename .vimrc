@@ -208,7 +208,8 @@ function! s:SmartLineBreak()
     let l:string = matchstr(getline(l:CurLine),'^ *"* *')
     return "\<CR>0\<C-d>" . l:string
   else
-    return "\<CR>"
+    let l:string = matchstr(getline(l:CurLine),'^ *#* *')
+    return "\<CR>0\<C-d>" . l:string
   endif
 
 endfunction

@@ -77,6 +77,7 @@ hi! MoreMsg cterm=NONE ctermfg=2 ctermbg=NONE guifg=#b4be82
 hi! Question cterm=NONE ctermfg=2 ctermbg=NONE guifg=#b4be82
 hi! Title cterm=NONE ctermfg=3 ctermbg=NONE gui=NONE guifg=#e2a478
 hi! MatchParen cterm=NONE ctermfg=NONE ctermbg=238 guibg=#3e445e guifg=#ffffff
+hi! Conceal cterm=NONE ctermfg=240 ctermbg=NONE
 
 "===============================================================================
 "===============================================================================
