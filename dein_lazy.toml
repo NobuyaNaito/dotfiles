@@ -56,10 +56,19 @@ hook_add = '''
 
   " # Conceal settings.
   let g:indentLine_concealcursor = 'nvic'
-  let g:indentLine_conceallevel = 2
 
   " # Indent character.
-  let g:indentLine_char = '|'
+  let g:indentLine_char = '¦'
+
+  " # Whitelist and blacklist.
+  let g:indentLine_fileType = ['vim', 'toml', 'fortran', 'c']
+  let g:indentLine_bufTypeExclude = ['help', 'qf']
+'''
+hook_post_source = '''
+  " # Enable after switching windows.
+  autocmd vimrc BufWinEnter,WinEnter *
+  \ if(count(g:indentLine_fileType,&filetype) != 0)
+  \ | execute('IndentLinesEnable') | endif
 '''
 
 #===============================================================================
@@ -222,10 +231,7 @@ hook_source = '''
   command! -bang -nargs=* Make AsyncRun -program=make -cwd=<root> @ <args>
 
   " # Open quickfix window automatically without focusing on it.
-  augroup AsyncRunCmd
-    autocmd!
-    autocmd User AsyncRunStart call <SID>QuickfixToggleVertical(100,1)
-  augroup END
+  autocmd vimrc User AsyncRunStart call <SID>QuickfixToggleVertical(100,1)
 
   " # Copied from asyncrun#quickfix_toggle.
   " # Vertical split. First argument is window width.
@@ -279,10 +285,6 @@ hook_source = '''
 repo = "prabirshrestha/asyncomplete.vim"
 on_event = "VimEnter"
 hook_add = '''
-  augroup AsyncompCmd
-    autocmd!
-  augroup END
-
   let g:asyncomplete_enable_for_all = 0
 '''
 hook_source = '''
@@ -316,7 +318,7 @@ hook_post_source = '''
   endfunction
 
   " # Not triggered when entering the command line window.
-  autocmd AsyncompCmd BufEnter * call <SID>AsyncompleteEnableForFT()
+  autocmd vimrc BufEnter * call <SID>AsyncompleteEnableForFT()
 
   " # Autocmd is not executed for the first file.
   call <SID>AsyncompleteEnableForFT()
@@ -327,7 +329,7 @@ hook_post_source = '''
 repo = "prabirshrestha/asyncomplete-necosyntax.vim"
 on_event = "VimEnter"
 hook_source = '''
-  autocmd AsyncompCmd User asyncomplete_setup call asyncomplete#register_source(
+  autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(
   \ asyncomplete#sources#necosyntax#get_source_options({
   \   "name": "necosyntax",
   \   "whitelist": [''],
@@ -342,7 +344,7 @@ hook_source = '''
 repo = "prabirshrestha/asyncomplete-necovim.vim"
 on_event = "VimEnter"
 hook_source = '''
-  autocmd AsyncompCmd User asyncomplete_setup call asyncomplete#register_source(
+  autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(
   \ asyncomplete#sources#necovim#get_source_options({
   \   "name": "necovim",
   \   "whitelist": ['vim'],
@@ -357,7 +359,7 @@ hook_source = '''
 repo = "prabirshrestha/asyncomplete-neosnippet.vim"
 on_event = "VimEnter"
 hook_source = '''
-  autocmd AsyncompCmd User asyncomplete_setup call asyncomplete#register_source(
+  autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(
   \ asyncomplete#sources#neosnippet#get_source_options({
   \   "name": "neosnippet",
   \   "priority": 10,
@@ -385,12 +387,8 @@ on_event = "VimEnter"
 repo = "Shougo/neosnippet.vim"
 on_event = "VimEnter"
 hook_add = '''
-  augroup NeosnipCmd
-    autocmd!
-  augroup END
-
   " # Set noexpandtab when editing snippets.
-  autocmd NeosnipCmd BufEnter * call <SID>NeosnippetSetNoExpandtab()
+  autocmd vimrc BufEnter * call <SID>NeosnippetSetNoExpandtab()
 
   function! s:NeosnippetSetNoExpandtab()
     if (&filetype ==# "neosnippet")
@@ -424,9 +422,9 @@ hook_source = '''
   \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
   " # For conceal markers.
-  "if has('conceal')
-  "  set conceallevel=2 concealcursor=niv
-  "endif
+  if has('conceal')
+    set conceallevel=2 concealcursor=nvic
+  endif
 '''
 
 # Default snippets for neosnippet.vim.

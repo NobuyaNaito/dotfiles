@@ -77,7 +77,8 @@ hi! MoreMsg cterm=NONE ctermfg=2 ctermbg=NONE guifg=#b4be82
 hi! Question cterm=NONE ctermfg=2 ctermbg=NONE guifg=#b4be82
 hi! Title cterm=NONE ctermfg=3 ctermbg=NONE gui=NONE guifg=#e2a478
 hi! MatchParen cterm=NONE ctermfg=NONE ctermbg=238 guibg=#3e445e guifg=#ffffff
-hi! Conceal cterm=NONE ctermfg=240 ctermbg=NONE
+hi! SpecialKey ctermfg=236 ctermbg=NONE guibg=#161821 guifg=#242940
+hi! Conceal cterm=NONE ctermfg=236 ctermbg=NONE
 
 "===============================================================================
 "===============================================================================
@@ -101,7 +102,7 @@ hi! Directory ctermfg=109 guifg=#89b8c2
 "hi! WarningMsg ctermbg=234 ctermfg=203 guibg=#161821 guifg=#e27878
 "hi! EndOfBuffer ctermbg=234 ctermfg=236 guibg=#161821 guifg=#242940
 "hi! NonText ctermbg=234 ctermfg=236 guibg=#161821 guifg=#242940
-hi! SpecialKey ctermbg=234 ctermfg=236 guibg=#161821 guifg=#242940
+"hi! SpecialKey ctermbg=234 ctermfg=236 guibg=#161821 guifg=#242940
 hi! Folded ctermbg=235 ctermfg=245 guibg=#1e2132 guifg=#686f9a
 hi! FoldColumn ctermbg=235 ctermfg=239 guibg=#1e2132 guifg=#444b71
 "hi! Function ctermfg=110 guifg=#84a0c6

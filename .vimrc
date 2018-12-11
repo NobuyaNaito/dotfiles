@@ -2,6 +2,10 @@ if !&compatible
   set nocompatible
 endif
 
+augroup vimrc
+  autocmd!
+augroup END
+
 "===============================================================================
 "===============================================================================
 " Plugins.
@@ -98,20 +102,11 @@ set cursorline
 set formatoptions=q
 set backspace=indent,eol,start
 
-augroup QuickFixOpen
-  autocmd!
-  autocmd QuickFixCmdPost make,*grep* copen
-augroup END
+" Open quickfix window automatically.
+autocmd vimrc QuickFixCmdPost make,*grep* copen
 
-augroup QuickFixVerticalRight
-  autocmd!
-  autocmd FileType qf wincmd L
-augroup END
-
-augroup HelpVerticalRight
-  autocmd!
-  autocmd FileType help wincmd L
-augroup END
+" Open quickfix & help window vertically, in the right and equal widths.
+autocmd vimrc FileType qf,help wincmd L
 
 " Uppercase/lowercase adjustment is enabled in ins completion.
 " 'set ignorecase' is required.
@@ -120,13 +115,8 @@ set infercase
 " Options for ins completion.
 set completeopt=menu,menuone,preview
 
-augroup OmniFuncAll
-  autocmd!
-  autocmd FileType * 
-  \ if &l:omnifunc == ""
-  \ |   setlocal omnifunc=syntaxcomplete#Complete
-  \ | endif
-augroup END
+autocmd vimrc FileType *
+\ if &l:omnifunc == "" | setlocal omnifunc=syntaxcomplete#Complete | endif
 
 " Stop completion when editing completed text.
 inoremap <expr> <BS> pumvisible() ? "\<C-y>\<BS>" : "\<BS>"
@@ -158,6 +148,10 @@ function! s:MyHelpGrep(args)
   let str = '\c\*\S*' . str . '\S*\*'
   execute 'helpgrep' str
 endfunction
+
+" Show invisible characters.
+set list
+set listchars=tab:>·,trail:·
 
 "===============================================================================
 "===============================================================================
@@ -246,10 +240,7 @@ xnoremap <SID>(ExCmdwinEnter) q:
 nmap : <SID>(ExCmdwinEnter)
 xmap : <SID>(ExCmdwinEnter)
 
-augroup MyCmdwin
-  autocmd!
-  autocmd CmdwinEnter * call s:InitCmdwin()
-augroup END
+autocmd vimrc CmdwinEnter * call s:InitCmdwin()
 
 " Called after entering cmdwin.
 function! s:InitCmdwin()
@@ -300,9 +291,6 @@ colorscheme myiceberg
 hi! OverLength cterm=reverse ctermfg=NONE ctermbg=NONE
 
 " Automatic matching.
-augroup MyAutoMatch
-  autocmd!
-  autocmd BufWinEnter,WinEnter * call clearmatches()
-  autocmd BufWinEnter,WinEnter *
-  \ if (&modifiable) | call matchadd("OverLength",'.\%>81v') | endif
-augroup END
+autocmd vimrc BufWinEnter,WinEnter * call clearmatches()
+autocmd vimrc BufWinEnter,WinEnter *
+\ if (&modifiable) | call matchadd("OverLength",'.\%>81v') | endif
