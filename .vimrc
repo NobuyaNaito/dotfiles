@@ -149,9 +149,18 @@ function! s:MyHelpGrep(args)
   execute 'helpgrep' str
 endfunction
 
+" Vimgrep in current file.
+command! -nargs=1 VIMGREP vimgrep <args> %
+
 " Show invisible characters.
-set list
-set listchars=tab:>·,trail:·
+set nolist
+autocmd vimrc BufWinEnter,WinEnter *
+\ if (&modifiable && !&readonly) | set list | else | set nolist | endif
+
+" List of shown invisible characters.
+set listchars=tab:>.,trail:.
+autocmd vimrc InsertEnter * set listchars=tab:>.
+autocmd vimrc InsertLeave * set listchars=tab:>.,trail:.
 
 "===============================================================================
 "===============================================================================
@@ -292,5 +301,5 @@ hi! OverLength cterm=reverse ctermfg=NONE ctermbg=NONE
 
 " Automatic matching.
 autocmd vimrc BufWinEnter,WinEnter * call clearmatches()
-autocmd vimrc BufWinEnter,WinEnter *
-\ if (&modifiable) | call matchadd("OverLength",'.\%>81v') | endif
+autocmd vimrc BufWinEnter,WinEnter * if (&modifiable && !&readonly)
+\ | call matchadd("OverLength",'.\%>81v') | endif

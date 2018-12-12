@@ -67,7 +67,7 @@ hi! Cursor cterm=NONE ctermfg=NONE ctermbg=7 guibg=#c6c8d1 guifg=#161821
 hi! CursorLineNr cterm=reverse,bold ctermfg=15 ctermbg=0 guibg=#2a3158 guifg=#cdd1e6
 hi! LineNr cterm=NONE ctermfg=8 ctermbg=0 guibg=#1e2132 guifg=#444b71
 hi! EndOfBuffer cterm=NONE ctermfg=236 ctermbg=NONE guibg=#161821 guifg=#242940
-hi! NonText cterm=NONE ctermfg=236 ctermbg=NONE guibg=#161821 guifg=#242940
+hi! NonText cterm=NONE ctermfg=240 ctermbg=NONE guibg=#161821 guifg=#242940
 hi! Function cterm=NONE ctermfg=4 ctermbg=NONE guifg=#84a0c6
 hi! Include cterm=NONE ctermfg=4 ctermbg=NONE guifg=#84a0c6
 hi! Operator cterm=NONE ctermfg=4 ctermbg=NONE guifg=#84a0c6
@@ -77,8 +77,8 @@ hi! MoreMsg cterm=NONE ctermfg=2 ctermbg=NONE guifg=#b4be82
 hi! Question cterm=NONE ctermfg=2 ctermbg=NONE guifg=#b4be82
 hi! Title cterm=NONE ctermfg=3 ctermbg=NONE gui=NONE guifg=#e2a478
 hi! MatchParen cterm=NONE ctermfg=NONE ctermbg=238 guibg=#3e445e guifg=#ffffff
-hi! SpecialKey ctermfg=236 ctermbg=NONE guibg=#161821 guifg=#242940
-hi! Conceal cterm=NONE ctermfg=236 ctermbg=NONE
+hi! SpecialKey ctermfg=240 ctermbg=NONE guibg=#161821 guifg=#242940
+hi! Conceal cterm=NONE ctermfg=240 ctermbg=NONE
 
 "===============================================================================
 "===============================================================================
