@@ -1,14 +1,22 @@
+"===============================================================================
+" STARTUP
+"===============================================================================
+
+" Be IMproved.
 if !&compatible
   set nocompatible
 endif
 
+" Autocmd group. Used by plugins too.
 augroup vimrc
   autocmd!
 augroup END
 
+
+
 "===============================================================================
+" PLUGIN
 "===============================================================================
-" Plugins.
 
 let s:plugin_dir = $HOME . "/.vim/bundles"
 let s:dein_dir = s:plugin_dir . "/repos/github.com/Shougo/dein.vim"
@@ -40,33 +48,22 @@ if isdirectory(s:dein_dir)
 
 endif
 
+
+
 "===============================================================================
+" SETTING
 "===============================================================================
-" Other settings.
 
 filetype on
 filetype plugin on
 filetype indent off
-syntax enable
 
-" runtimepath
+" Runtimepath.
 let s:dotfiles_runtime = $HOME . "/dotfiles/vimruntime"
 let &runtimepath = s:dotfiles_runtime .",". &runtimepath
 let &runtimepath = &runtimepath .",". s:dotfiles_runtime . "/after"
 
-" mapping
-noremap <S-h> ^
-noremap <S-l> $
-nnoremap <C-h> gT
-nnoremap <C-l> gt
-"nnoremap :te :tabedit
-vnoremap * "zy:let @/ = @z<CR>n
-" instant escape from insert and visual mode
-inoremap <silent> <ESC> <ESC>:<CR>
-vnoremap <silent> <ESC> <ESC>:<CR>
-
-" search
-nnoremap <ESC><ESC> :nohlsearch<CR>
+" Search.
 set hlsearch
 set incsearch
 set ignorecase
@@ -82,22 +79,9 @@ set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 
-" statusline
-set laststatus=2
-set ruler
-
-" tabline
-set showtabline=2
-
-" column
-"execute "set colorcolumn=" . join(range(81, 200), ',')
-
 " other setting
 set scrolloff=4
 set whichwrap=b,s,<,>,[,]
-set number
-set relativenumber
-set cursorline
 "set formatoptions-=or   => &runtimepath /after/plugin/common_settings.vim
 set formatoptions=q
 set backspace=indent,eol,start
@@ -118,53 +102,34 @@ set completeopt=menu,menuone,preview
 autocmd vimrc FileType *
 \ if &l:omnifunc == "" | setlocal omnifunc=syntaxcomplete#Complete | endif
 
+
+
+"===============================================================================
+" MAPPING
+"===============================================================================
+
+"-------------------------------------------------------------------------------
+" NORMAL MODE
+
+noremap <S-h> ^
+noremap <S-l> $
+nnoremap <C-h> gT
+nnoremap <C-l> gt
+
+" search
+nnoremap <ESC><ESC> :nohlsearch<CR>
+
 " Stop completion when editing completed text.
 inoremap <expr> <BS> pumvisible() ? "\<C-y>\<BS>" : "\<BS>"
 
 " Toggle boolean value.
-nnoremap <expr> <C-n> <SID>ToggleBoolean(expand("<cword>"))
+nnoremap <silent> <C-n> :call <SID>ToggleBoolean()<CR>
 
-function! s:ToggleBoolean(word)
+"-------------------------------------------------------------------------------
+" INSERT MODE
 
-  if (a:word ==# "TRUE")
-    return "ciwFALSE\<ESC>"
-  elseif (a:word ==# "FALSE")
-    return "ciwTRUE\<ESC>"
-  elseif (a:word ==# "true")
-    return "ciwfalse\<ESC>"
-  elseif (a:word ==# "false")
-    return "ciwtrue\<ESC>"
-  else
-    return ""
-  endif
-
-endfunction
-
-" Helpgrep to search only for indexes.
-command! -nargs=+ HG call s:MyHelpGrep(<q-args>)
-
-function! s:MyHelpGrep(args)
-  let str = substitute(a:args,'\s\+','\\S\*','g')
-  let str = '\c\*\S*' . str . '\S*\*'
-  execute 'helpgrep' str
-endfunction
-
-" Vimgrep in current file.
-command! -nargs=1 VIMGREP vimgrep <args> %
-
-" Show invisible characters.
-set nolist
-autocmd vimrc BufWinEnter,WinEnter *
-\ if (&modifiable && !&readonly) | set list | else | set nolist | endif
-
-" List of shown invisible characters.
-set listchars=tab:>.,trail:.
-autocmd vimrc InsertEnter * set listchars=tab:>.
-autocmd vimrc InsertLeave * set listchars=tab:>.,trail:.
-
-"===============================================================================
-"===============================================================================
-" Insert mode mappings.
+" Instant escape from insert mode.
+inoremap <silent> <ESC> <ESC>:<CR>
 
 " Prevent inserting Ctrl-F.
 inoremap <C-f> <Nop>
@@ -177,68 +142,39 @@ inoremap <C-f>i .TRUE.
 inoremap <C-f>o .FALSE.
 
 " Insert linebreak and continue sentence.
-inoremap <silent><expr> <C-f><C-n> <SID>SpecialLineBreak()
+inoremap <silent> <C-f><C-n> <ESC>:call <SID>SpecialLineBreak()<CR>a
 
 " Insert linebreak keeping indent and Fortran comment.
-inoremap <silent><expr> <C-f><CR> <SID>SmartLineBreak()
+inoremap <silent> <C-f><CR> <ESC>:call <SID>SmartLineBreak()<CR>a
 
 " Insert character toward the 80th column.
 inoremap <silent> <C-f>m <C-\><C-o>:call <SID>InsertComment80("-")<CR><Right>
 inoremap <silent> <C-f>e <C-\><C-o>:call <SID>InsertComment80("=")<CR><Right>
 inoremap <silent> <C-f>x <C-\><C-o>:call <SID>InsertComment80("!")<CR><Right>
 
-" Return string to be typed for linebreak.
-function! s:SpecialLineBreak()
+"-------------------------------------------------------------------------------
+" VISUAL MODE
 
-  if (&filetype ==# "fortran")
-    return "\<Space>&\<CR>&\<Space>"
-  elseif (&filetype ==# "vim")
-    return "\<CR>\\\<Space>"
-  else
-    return "\<CR>"
-  endif
+" Instant escape from visual mode.
+vnoremap <silent> <ESC> <ESC>:<CR>
 
-endfunction
+" Search selected string not as a single word.
+vnoremap * "zy:let @/ = @z<CR>n
 
-" Return command for linebreak keeping indent and given pattern.
-function! s:SmartLineBreak()
 
-  let l:CurLine = s:GetCurLine()
-  if (&filetype ==# "fortran")
-    let l:string = matchstr(getline(l:CurLine),'^ *!* *')
-    return "\<CR>0\<C-d>" . l:string
-  elseif (&filetype ==# "vim")
-    let l:string = matchstr(getline(l:CurLine),'^ *"* *')
-    return "\<CR>0\<C-d>" . l:string
-  else
-    let l:string = matchstr(getline(l:CurLine),'^ *#* *')
-    return "\<CR>0\<C-d>" . l:string
-  endif
-
-endfunction
-
-" Fill from cursor position to 80th column with a:char.
-" The argument must be a character.
-function! s:InsertComment80(char)
-
-  " Save virtualedit setting.
-  let l:vesave = &virtualedit
-
-  " Required.
-  set virtualedit=onemore
-
-  let l:num = 81 - s:GetCurColumn()
-  let l:cmd = "normal " . l:num . "R" . a:char
-  execute l:cmd
-
-  " Load virtualedit setting.
-  let &virtualedit = l:vesave
-
-endfunction
 
 "===============================================================================
+" COMMAND
 "===============================================================================
-" Command line window.
+
+" Helpgrep to search only for indexes.
+command! -nargs=+ HG call s:MyHelpGrep(<q-args>)
+
+" Vimgrep in current file.
+command! -nargs=1 VIMGREP vimgrep <args> %
+
+"-------------------------------------------------------------------------------
+" COMMAND LINE WINDOW
 
 " Height of cmdwin.
 set cmdwinheight=5
@@ -273,9 +209,11 @@ function! s:InitCmdwin()
 
 endfunction
 
+
+
 "===============================================================================
+" FUNCTION
 "===============================================================================
-" Generic functions.
 
 " Get cursor column number.
 function! s:GetCurColumn()
@@ -289,10 +227,135 @@ function! s:GetCurLine()
   return l:CurPos[1]
 endfunction
 
-"===============================================================================
-"===============================================================================
-" Colorscheme.
+"-------------------------------------------------------------------------------
+" Toggle boolean value under the cursor.
 
+function! s:ToggleBoolean()
+
+  " Get word under the cursor.
+  let l:word = expand("<cword>")
+
+  " When boolean value, toggle it.
+  if (l:word ==# "TRUE")
+    execute "normal! ciwFALSE\<ESC>"
+  elseif (l:word ==# "FALSE")
+    execute "normal! ciwTRUE\<ESC>"
+  elseif (l:word ==# "true")
+    execute "normal! ciwfalse\<ESC>"
+  elseif (l:word ==# "false")
+    execute "normal! ciwtrue\<ESC>"
+  endif
+
+endfunction
+
+"-------------------------------------------------------------------------------
+" Do linebreak and continue the line.
+" * Indent in the new line might be deleted.
+" * Not start in proper position when not called at end of line.
+
+function! s:SpecialLineBreak()
+
+  if (&filetype ==# "fortran")
+    let l:text = "\<Space>&\<CR>&\<Space>"
+  elseif (&filetype ==# "vim")
+    let l:text = "\<CR>\\\<Space>"
+  else
+    let l:text = "\<CR>"
+  endif
+
+  execute "normal! a" . l:text . "\<ESC>"
+
+endfunction
+
+"-------------------------------------------------------------------------------
+" Do linebreak with keeping comment and indent.
+" * Listchars might blink when called.
+" * Trailing spaces are not trimmed.
+
+function! s:SmartLineBreak()
+
+  let l:curline = s:GetCurLine()
+
+  " String to be inserted.
+  if (&filetype ==# "fortran")
+    let l:string = matchstr(getline(l:curline),'^ *!* *')
+  elseif (&filetype ==# "vim")
+    let l:string = matchstr(getline(l:curline),'^ *"* *')
+  else
+    let l:string = matchstr(getline(l:curline),'^ *#* *')
+  endif
+
+  execute "normal! a\<CR>0\<C-d>" . l:string . "\<ESC>"
+
+endfunction
+
+"-------------------------------------------------------------------------------
+" Fill from cursor position to 80th column with given character.
+" The argument must be one character.
+
+function! s:InsertComment80(char)
+
+  " Save virtualedit setting.
+  let l:vesave = &virtualedit
+
+  " Required.
+  set virtualedit=onemore
+
+  " The number of inserted characters.
+  let l:num = 81 - s:GetCurColumn()
+
+  execute "normal! " . l:num . "R" . a:char
+
+  " Load virtualedit setting.
+  let &virtualedit = l:vesave
+
+endfunction
+
+"-------------------------------------------------------------------------------
+" Modified helpgrep.
+
+function! s:MyHelpGrep(args)
+  let str = substitute(a:args,'\s\+','\\S\*','g')
+  let str = '\c\*\S*' . str . '\S*\*'
+  execute 'helpgrep' str
+endfunction
+
+
+
+"===============================================================================
+" APPEARANCE
+"===============================================================================
+
+syntax enable
+
+set number
+set relativenumber
+set cursorline
+
+" statusline
+set laststatus=2
+set ruler
+
+" tabline
+set showtabline=2
+
+" Show invisible characters.
+set nolist
+autocmd vimrc BufWinEnter,WinEnter *
+\ if (&modifiable && !&readonly) | set list | else | set nolist | endif
+
+" List of shown invisible characters.
+set listchars=tab:>.,trail:.
+autocmd vimrc InsertEnter * set listchars=tab:>.
+autocmd vimrc InsertLeave * set listchars=tab:>.,trail:.
+
+
+
+"===============================================================================
+" HIGHLIGHT
+"===============================================================================
+
+" Colorscheme.
 "colorscheme myscheme
 colorscheme myiceberg
 
