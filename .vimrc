@@ -119,9 +119,6 @@ nnoremap <C-l> gt
 " search
 nnoremap <ESC><ESC> :nohlsearch<CR>
 
-" Stop completion when editing completed text.
-inoremap <expr> <BS> pumvisible() ? "\<C-y>\<BS>" : "\<BS>"
-
 " Toggle boolean value.
 nnoremap <silent> <C-n> :call <SID>ToggleBoolean()<CR>
 
@@ -131,11 +128,14 @@ nnoremap <silent> <C-n> :call <SID>ToggleBoolean()<CR>
 " Instant escape from insert mode.
 inoremap <silent> <ESC> <ESC>:<CR>
 
-" Prevent inserting Ctrl-F.
-inoremap <C-f> <Nop>
+" Stop completion when editing completed text.
+inoremap <expr> <BS> pumvisible() ? "\<C-y>\<BS>" : "\<BS>"
 
 " Insert '%'.
 inoremap <silent><expr> <C-p> pumvisible() ? "\<C-p>" : "%"
+
+" Prevent inserting Ctrl-F.
+inoremap <C-f> <Nop>
 
 " Insert boolean value.
 inoremap <C-f>i .TRUE.
