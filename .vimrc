@@ -152,6 +152,19 @@ inoremap <silent> <C-f>m <C-\><C-o>:call <SID>InsertComment80("-")<CR><Right>
 inoremap <silent> <C-f>e <C-\><C-o>:call <SID>InsertComment80("=")<CR><Right>
 inoremap <silent> <C-f>x <C-\><C-o>:call <SID>InsertComment80("!")<CR><Right>
 
+"inoremap <silent><expr> <C-f><C-j> <SID>DeleteTrailingSpace(getline("."))
+
+function! s:DeleteTrailingSpace(line)
+  let l:num = len(matchstr(a:line,"\s\+$"))
+  echo l:num
+  let l:cmd = ''
+  while l:num > 0
+    let l:cmd = l:cmd . "\<BS>"
+    let l:num -= 1
+  endwhile
+  return l:cmd
+endfunction
+
 "-------------------------------------------------------------------------------
 " VISUAL MODE
 
@@ -345,9 +358,9 @@ autocmd vimrc BufWinEnter,WinEnter *
 \ if (&modifiable && !&readonly) | set list | else | set nolist | endif
 
 " List of shown invisible characters.
-set listchars=tab:>.,trail:.
-autocmd vimrc InsertEnter * set listchars=tab:>.
-autocmd vimrc InsertLeave * set listchars=tab:>.,trail:.
+set listchars=tab:>·,trail:·
+autocmd vimrc InsertEnter * set listchars=tab:>·
+autocmd vimrc InsertLeave * set listchars=tab:>·,trail:·
 
 
 
