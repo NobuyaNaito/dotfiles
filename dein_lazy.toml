@@ -47,30 +47,6 @@ hook_source =  '''
   let g:matchup_matchparen_status_offscreen = 0
 '''
 
-[[plugins]]
-repo = "Yggdroot/indentLine"
-on_event = "VimEnter"
-hook_add = '''
-  " # Disable overwriting 'conceal' color.
-  let g:indentLine_setColors = 0
-
-  " # Conceal settings.
-  let g:indentLine_concealcursor = 'nvic'
-
-  " # Indent character.
-  let g:indentLine_char = '|'
-
-  " # Whitelist and blacklist.
-  let g:indentLine_fileType = ['vim', 'toml', 'fortran', 'c']
-  let g:indentLine_bufTypeExclude = ['help', 'qf']
-'''
-hook_post_source = '''
-  " # Enable after switching windows.
-  autocmd vimrc BufWinEnter,WinEnter *
-  \ if(count(g:indentLine_fileType,&filetype) != 0)
-  \ | execute('IndentLinesEnable') | endif
-'''
-
 #===============================================================================
 #===============================================================================
 # ctrlp.vim
@@ -276,108 +252,6 @@ hook_source = '''
     noautocmd silent! exec ''.l:winnr.'wincmd w'
   endfunc
 '''
-
-#===============================================================================
-#===============================================================================
-# asyncomplete.vim
-
-[[plugins]]
-repo = "prabirshrestha/asyncomplete.vim"
-on_event = "VimEnter"
-hook_add = '''
-  let g:asyncomplete_enable_for_all = 0
-'''
-hook_source = '''
-  " # Avoid ins completion menu messages.
-  set shortmess+=c
-
-  " # Disable fuzzy match.
-  let g:asyncomplete_smart_completion = 0
-
-  " # Output log.
-  " # let g:asyncomplete_log_file =
-
-  " # Close completion menu when starting a new line.
-  inoremap <expr> <RETURN> pumvisible() ? "<C-y><RETURN>" : "<RETURN>"
-'''
-hook_post_source = '''
-  " # Filetype whitelist.
-  let s:AsyncompleteEnableFTList = ["vim","toml"]
-
-  " # Enable asyncomplete for filetypes in whitelist.
-  function! s:AsyncompleteEnableForFT()
-
-    " # Search whitelist for current filetype.
-    for ft in s:AsyncompleteEnableFTList
-      if (&filetype ==# ft)
-        call asyncomplete#enable_for_buffer()
-        return
-      endif
-    endfor
-
-  endfunction
-
-  " # Not triggered when entering the command line window.
-  autocmd vimrc BufEnter * call <SID>AsyncompleteEnableForFT()
-
-  " # Autocmd is not executed for the first file.
-  call <SID>AsyncompleteEnableForFT()
-'''
-
-# Autocomplete "syntax".
-[[plugins]]
-repo = "prabirshrestha/asyncomplete-necosyntax.vim"
-on_event = "VimEnter"
-hook_source = '''
-  autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(
-  \ asyncomplete#sources#necosyntax#get_source_options({
-  \   "name": "necosyntax",
-  \   "whitelist": [''],
-  \   "priority": 0,
-  \   "completor": function('asyncomplete#sources#necosyntax#completor'),
-  \ })
-  \ )
-'''
-
-# Autocomplete "vim".
-[[plugins]]
-repo = "prabirshrestha/asyncomplete-necovim.vim"
-on_event = "VimEnter"
-hook_source = '''
-  autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(
-  \ asyncomplete#sources#necovim#get_source_options({
-  \   "name": "necovim",
-  \   "whitelist": ['vim'],
-  \   "priority": 6,
-  \   "completor": function('asyncomplete#sources#necovim#completor'),
-  \ })
-  \ )
-'''
-
-# Autocomplete "snippet".
-[[plugins]]
-repo = "prabirshrestha/asyncomplete-neosnippet.vim"
-on_event = "VimEnter"
-hook_source = '''
-  autocmd vimrc User asyncomplete_setup call asyncomplete#register_source(
-  \ asyncomplete#sources#neosnippet#get_source_options({
-  \   "name": "neosnippet",
-  \   "priority": 10,
-  \   "whitelist": ['*'],
-  \   "completor": function('asyncomplete#sources#neosnippet#completor'),
-  \ })
-  \ )
-'''
-
-# Source for "syntax".
-[[plugins]]
-repo = "Shougo/neco-syntax"
-on_event = "VimEnter"
-
-# Source for "vim".
-[[plugins]]
-repo = "Shougo/neco-vim"
-on_event = "VimEnter"
 
 #===============================================================================
 #===============================================================================
