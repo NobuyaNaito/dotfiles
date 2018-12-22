@@ -102,6 +102,9 @@ set completeopt=menu,menuone,preview
 autocmd vimrc FileType *
 \ if &l:omnifunc == "" | setlocal omnifunc=syntaxcomplete#Complete | endif
 
+" Fold by marker.
+set foldmethod=marker
+
 
 
 "===============================================================================
@@ -141,29 +144,16 @@ inoremap <C-f> <Nop>
 inoremap <C-f>i .TRUE.
 inoremap <C-f>o .FALSE.
 
-" Insert linebreak and continue sentence.
-inoremap <silent> <C-f><C-n> <ESC>:call <SID>SpecialLineBreak()<CR>a
-
-" Insert linebreak keeping indent and Fortran comment.
-inoremap <silent> <C-f><CR> <ESC>:call <SID>SmartLineBreak()<CR>a
-
 " Insert character toward the 80th column.
 inoremap <silent> <C-f>m <C-\><C-o>:call <SID>InsertComment80("-")<CR><Right>
 inoremap <silent> <C-f>e <C-\><C-o>:call <SID>InsertComment80("=")<CR><Right>
 inoremap <silent> <C-f>x <C-\><C-o>:call <SID>InsertComment80("!")<CR><Right>
 
-"inoremap <silent><expr> <C-f><C-j> <SID>DeleteTrailingSpace(getline("."))
+" Functional linebreak.
+inoremap <silent><expr> <C-f><CR> <SID>SmartLineBreak()
 
-function! s:DeleteTrailingSpace(line)
-  let l:num = len(matchstr(a:line,"\s\+$"))
-  echo l:num
-  let l:cmd = ''
-  while l:num > 0
-    let l:cmd = l:cmd . "\<BS>"
-    let l:num -= 1
-  endwhile
-  return l:cmd
-endfunction
+" Prevent typo.
+inoremap <C-@> <ESC>
 
 "-------------------------------------------------------------------------------
 " VISUAL MODE
@@ -262,47 +252,6 @@ function! s:ToggleBoolean()
 endfunction
 
 "-------------------------------------------------------------------------------
-" Do linebreak and continue the line.
-" * Indent in the new line might be deleted.
-" * Not start in proper position when not called at end of line.
-
-function! s:SpecialLineBreak()
-
-  if (&filetype ==# "fortran")
-    let l:text = "\<Space>&\<CR>&\<Space>"
-  elseif (&filetype ==# "vim")
-    let l:text = "\<CR>\\\<Space>"
-  else
-    let l:text = "\<CR>"
-  endif
-
-  execute "normal! a" . l:text . "\<ESC>"
-
-endfunction
-
-"-------------------------------------------------------------------------------
-" Do linebreak with keeping comment and indent.
-" * Listchars might blink when called.
-" * Trailing spaces are not trimmed.
-
-function! s:SmartLineBreak()
-
-  let l:curline = s:GetCurLine()
-
-  " String to be inserted.
-  if (&filetype ==# "fortran")
-    let l:string = matchstr(getline(l:curline),'^ *!* *')
-  elseif (&filetype ==# "vim")
-    let l:string = matchstr(getline(l:curline),'^ *"* *')
-  else
-    let l:string = matchstr(getline(l:curline),'^ *#* *')
-  endif
-
-  execute "normal! a\<CR>0\<C-d>" . l:string . "\<ESC>"
-
-endfunction
-
-"-------------------------------------------------------------------------------
 " Fill from cursor position to 80th column with given character.
 " The argument must be one character.
 
@@ -322,6 +271,126 @@ function! s:InsertComment80(char)
   " Load virtualedit setting.
   let &virtualedit = l:vesave
 
+endfunction
+
+"-------------------------------------------------------------------------------
+" Return key sequence for functional linebreak depending on the context.
+" If inside comment, keep comment character and indent in the cursorline.
+" Otherwise, insert proper character to continue the line.
+
+" s:..._{&filetype}   is configs for the filetype.
+" s:...               is the global configs.
+
+" Comment character.
+let s:CommentStr = "#"
+let s:CommentStr_vim = '"'
+let s:CommentStr_fortran = "!"
+
+" Tail-of-line character to continue the line.
+let s:ContinuePre = ""
+let s:ContinuePre_vim = ""
+let s:ContinuePre_fortran = "\<space>&"
+
+" Head-of-line character to continue the line.
+let s:ContinuePost = ""
+let s:ContinuePost_vim = "\\\<space>"
+let s:ContinuePost_fortran = "&\<space>"
+
+function! s:SmartLineBreak()
+
+  " Save settings changed here.
+  call s:LoadEditConfig()
+  call s:SaveEditConfig()
+
+  " Required.
+  set virtualedit=onemore
+
+  " Required to delete one space per one <BS>.
+  set softtabstop=0
+
+  " Required to confirm behavior of <CR>.
+  set autoindent
+
+  " Command sequence.
+  let l:cmd = ''
+
+  " '-1' is required for linebreak in the middle of the line.
+  let l:line = strpart(getline("."), 0, col(".") - 1)
+
+  " Delete trailing spaces.
+  if match(l:line,'\S') >= 0
+    let l:num = len(matchstr(l:line, '\s\+$'))
+    while l:num > 0
+      let l:cmd = l:cmd . "\<BS>"
+      let l:num -= 1
+    endwhile
+  endif
+
+  " Comment character.
+  if exists("s:CommentStr_{&filetype}")
+    let l:comment = s:CommentStr_{&filetype}
+  else
+    let l:comment = s:CommentStr
+  endif
+
+  " If inside comment line.
+  if matchstr(l:line,'^\s*\zs.') == l:comment
+    let l:cmd = l:cmd . "\<CR>"
+    \ . matchstr(l:line,'^\s*\zs' . l:comment . '*\s*')
+
+  " Otherwise.
+  else
+
+    " Tail-of-line character to continue the line.
+    if exists("s:ContinuePre_{&filetype}")
+      let l:pre = s:ContinuePre_{&filetype}
+    else
+      let l:pre = s:ContinuePre
+    endif
+
+    " Head-of-line character to continue the line.
+    if exists("s:ContinuePost_{&filetype}")
+      let l:post = s:ContinuePost_{&filetype}
+    else
+      let l:post = s:ContinuePost
+    endif
+
+    let l:cmd = l:cmd . l:pre . "\<CR>" . l:post
+  endif
+
+  return l:cmd
+
+endfunction
+
+" Autocmd to load configs.
+augroup EditConfig
+  autocmd!
+augroup END
+
+" Save settings required for smart linebreak.
+function! s:SaveEditConfig()
+  let s:save_virtualedit = &virtualedit
+  let s:save_softtabstop = &softtabstop
+  let s:save_autoindent = &autoindent
+
+  " Load overwritten settings later.
+  autocmd EditConfig CursorHoldI,InsertLeave * call <SID>LoadEditConfig()
+endfunction
+
+" Load settings required for smart linebreak.
+function! s:LoadEditConfig()
+  if exists("s:save_virtualedit")
+    let &virtualedit = s:save_virtualedit
+  endif
+  if exists("s:save_softtabstop")
+    let &softtabstop = s:save_softtabstop
+  endif
+  if exists("s:save_autoindent")
+    let &autoindent = s:save_autoindent
+  endif
+
+  " Delete autocmd.
+  autocmd! EditConfig
 endfunction
 
 "-------------------------------------------------------------------------------
