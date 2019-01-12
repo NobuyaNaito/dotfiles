@@ -155,6 +155,18 @@ inoremap <silent><expr> <C-f><CR> <SID>SmartLineBreak()
 " Prevent typo.
 inoremap <C-@> <ESC>
 
+inoremap 　 <Space>
+inoremap （ (
+inoremap ） )
+inoremap 、 ,
+inoremap 。 .
+inoremap ： :
+inoremap ； ;
+inoremap ！ !
+inoremap ？ ?
+inoremap ／ /
+inoremap どt ・
+
 "-------------------------------------------------------------------------------
 " VISUAL MODE
 

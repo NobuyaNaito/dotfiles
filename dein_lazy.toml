@@ -116,14 +116,10 @@ on_event = "VimEnter"
 
 [[plugins]]
 repo = "thinca/vim-quickrun"
-on_cmd = "QuickRun"
-hook_add = '''
-  " # Short cut command.
-  command! -nargs=* Run QuickRun <args>
-'''
+on_event = "VimEnter"
 hook_source = '''
   " # Disable default key mapping.
-  let g:quickrun_no_default_key_mappings = 1
+  let g:quickrun_no_default_key_mappings = 0
 
   " # Stop quickrun sessions.
   nnoremap <expr><silent> <C-c>
