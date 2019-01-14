@@ -302,6 +302,17 @@ hook_source = '''
 repo = "Shougo/neosnippet-snippets"
 on_source = ["neosnippet.vim"]
 
+[[plugins]]
+repo = "lervag/vimtex"
+on_ft = "tex"
+hook_add = '''
+  " # Set default filetype of '*.tex' files recognized by vim.
+  let g:tex_flavor = "latex"
+
+  " # Enable the plugin match-up.
+  let g:matchup_override_vimtex = 1
+'''
+
 #===============================================================================
 #===============================================================================
 # TOML syntax highlight.
