@@ -8,6 +8,8 @@ export TERM=xterm-256color
 alias cp='cp -i'
 alias mv='mv -i'
 
+alias gits='git status'
+
 # Source global definitions
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
@@ -29,3 +31,6 @@ export DISPLAY=192.168.113.201:0.0
 
 #export QSAC_DIR=/home/naito/Qsac/
 #export PATH=$PATH:/home/mori/bin/
+
+# Set colors for ls command.
+eval `dircolors ~/.dir_colors -b`
