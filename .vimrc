@@ -148,6 +148,7 @@ inoremap <C-f>o .FALSE.
 inoremap <silent> <C-f>m <C-\><C-o>:call <SID>InsertComment80("-")<CR><Right>
 inoremap <silent> <C-f>e <C-\><C-o>:call <SID>InsertComment80("=")<CR><Right>
 inoremap <silent> <C-f>x <C-\><C-o>:call <SID>InsertComment80("!")<CR><Right>
+inoremap <silent> <C-f>s <C-\><C-o>:call <SID>InsertComment80("#")<CR><Right>
 
 " Functional linebreak.
 inoremap <silent><expr> <C-f><CR> <SID>SmartLineBreak()

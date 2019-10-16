@@ -10,6 +10,15 @@ alias mv='mv -i'
 
 alias gits='git status'
 
+nas() {
+  if [ "$#" -eq 0 ]
+  then
+    cd /mnt/share/save/naito/
+  else
+    cp -r $1 /mnt/share/save/naito/$2
+  fi
+}
+
 # Source global definitions
 if [ -f /etc/bashrc ]; then
 	. /etc/bashrc
