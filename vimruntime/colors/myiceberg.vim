@@ -60,12 +60,12 @@ hi! ErrorMsg cterm=NONE ctermfg=1 ctermbg=NONE guibg=#161821 guifg=#e27878
 hi! WarningMsg cterm=NONE ctermfg=1 ctermbg=NONE guibg=#161821 guifg=#e27878
 hi! Todo cterm=NONE ctermfg=2 ctermbg=NONE guibg=#45493e guifg=#b4be82
 hi! String cterm=NONE ctermfg=6 ctermbg=NONE guifg=#89b8c2
-hi! ColorColumn cterm=NONE ctermfg=NONE ctermbg=0 guibg=#1e2132
-hi! CursorColumn cterm=NONE ctermfg=NONE ctermbg=0 guibg=#1e2132
-hi! CursorLine cterm=NONE ctermfg=NONE ctermbg=0 guibg=#1e2132
+hi! ColorColumn cterm=NONE ctermfg=NONE ctermbg=10 guibg=#1e2132
+hi! CursorColumn cterm=NONE ctermfg=NONE ctermbg=10 guibg=#1e2132
+hi! CursorLine cterm=NONE ctermfg=NONE ctermbg=10 guibg=#1e2132
 hi! Cursor cterm=NONE ctermfg=NONE ctermbg=7 guibg=#c6c8d1 guifg=#161821
-hi! CursorLineNr cterm=reverse,bold ctermfg=15 ctermbg=0 guibg=#2a3158 guifg=#cdd1e6
-hi! LineNr cterm=NONE ctermfg=8 ctermbg=0 guibg=#1e2132 guifg=#444b71
+hi! CursorLineNr cterm=bold ctermfg=15 ctermbg=11 guibg=#2a3158 guifg=#cdd1e6
+hi! LineNr cterm=NONE ctermfg=8 ctermbg=10 guibg=#1e2132 guifg=#444b71
 hi! EndOfBuffer cterm=NONE ctermfg=236 ctermbg=NONE guibg=#161821 guifg=#242940
 hi! NonText cterm=NONE ctermfg=240 ctermbg=NONE guibg=#161821 guifg=#242940
 hi! Function cterm=NONE ctermfg=4 ctermbg=NONE guifg=#84a0c6
