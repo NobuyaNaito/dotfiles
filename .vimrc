@@ -149,6 +149,7 @@ inoremap <silent> <C-f>m <C-\><C-o>:call <SID>InsertComment80("-")<CR><Right>
 inoremap <silent> <C-f>e <C-\><C-o>:call <SID>InsertComment80("=")<CR><Right>
 inoremap <silent> <C-f>x <C-\><C-o>:call <SID>InsertComment80("!")<CR><Right>
 inoremap <silent> <C-f>s <C-\><C-o>:call <SID>InsertComment80("#")<CR><Right>
+inoremap <silent> <C-f>p <C-\><C-o>:call <SID>InsertComment80("%")<CR><Right>
 
 " Functional linebreak.
 inoremap <silent><expr> <C-f><CR> <SID>SmartLineBreak()
@@ -298,16 +299,19 @@ endfunction
 let s:CommentStr = "#"
 let s:CommentStr_vim = '"'
 let s:CommentStr_fortran = "!"
+let s:CommentStr_tex = "%"
 
 " Tail-of-line character to continue the line.
 let s:ContinuePre = ""
 let s:ContinuePre_vim = ""
 let s:ContinuePre_fortran = "\<space>&"
+let s:ContinuePre_tex = "\\"
 
 " Head-of-line character to continue the line.
 let s:ContinuePost = ""
 let s:ContinuePost_vim = "\\\<space>"
 let s:ContinuePost_fortran = "&\<space>"
+let s:ContinuePost_tex = ""
 
 function! s:SmartLineBreak()
 
@@ -443,6 +447,8 @@ autocmd vimrc BufWinEnter,WinEnter *
 set listchars=tab:>·,trail:·
 autocmd vimrc InsertEnter * set listchars=tab:>·
 autocmd vimrc InsertLeave * set listchars=tab:>·,trail:·
+
+let g:tex_conceal=''
 
 
 

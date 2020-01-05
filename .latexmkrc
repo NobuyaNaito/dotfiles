@@ -22,3 +22,5 @@ $pdf_update_command = "open -ga Preview %S";
 
 # Setting for Skim.app to follow update automatically.
 #$pvc_view_file_via_temporary = 0;
+
+$out_dir = 'build';
