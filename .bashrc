@@ -13,9 +13,19 @@ alias gits='git status'
 nas() {
   if [ "$#" -eq 0 ]
   then
-    cd /mnt/share/save/naito/
+    cd /mnt/share/save/
+    cd naito
   else
     cp -r $1 /mnt/share/save/naito/$2
+  fi
+}
+
+home2() {
+  if [ "$#" -eq 0 ]
+  then
+    cd /mnt/home2/naito
+  else
+    cp -r $1 /mnt/home2/naito/$2
   fi
 }
 
@@ -40,6 +50,15 @@ export DISPLAY=192.168.113.201:0.0
 
 #export QSAC_DIR=/home/naito/Qsac/
 #export PATH=$PATH:/home/mori/bin/
+
+# TeX
+export MANPATH=/usr/local/texlive/2018/texmf-dist/doc/man:$MANPATH
+export INFOPATH=/usr/local/texlive/2018/texmf-dist/doc/info:$INFOPATH
+export PATH=/usr/local/texlive/2018/bin/x86_64-linux:$PATH
+#Add /usr/local/texlive/2018/texmf-dist/doc/man to MANPATH.
+#Add /usr/local/texlive/2018/texmf-dist/doc/info to INFOPATH.
+#Most importantly, add /usr/local/texlive/2018/bin/x86_64-linux
+#to your PATH for current and future sessions.
 
 # Set colors for ls command.
 eval `dircolors ~/.dir_colors -b`
