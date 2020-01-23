@@ -44,3 +44,25 @@ snippet			left
 abbr				\left \right
 alias				le lef left
 	\left${1}${0:TARGET}\right${2}
+
+snippet			figure
+abbr				\begin{figure} \centering \includegraphics[width=]{} \caption{} \label{} \end{figure}
+alias				fi fig figu figur figure
+	\begin{figure}
+		\centering
+		\includegraphics[width=${1}]{${2}}
+		\caption{${3}}
+		\label{${0:TARGET}}
+	\end{figure}
+
+snippet			table
+abbr				\begin{table} \centering \caption{} \begin{tabular}{} \end{tabular} \label{} \end{table}
+alias				ta tab tabl table
+	\begin{table}
+		\centering
+		\caption{${1}}
+		\begin{tabular}{${2}}
+			${0:TARGET}
+		\end{tabular}
+		\label{${3}}
+	\end{table}
